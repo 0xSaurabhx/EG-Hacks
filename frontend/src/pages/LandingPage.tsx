@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
-import { CardTitle, CardDescription, CardHeader, CardContent, CardFooter, Card } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { IoDocumentOutline } from "react-icons/io5"; 
+
 
  const LandingPage = () => {
   return (
@@ -13,17 +11,19 @@ import { Textarea } from "@/components/ui/textarea"
         <FlagIcon className="h-6 w-6 mr-2" />
         <span className="text-lg font-bold">Legacy Code Migrator</span>
       </Link>
-      <nav className="hidden md:flex items-center space-x-4">
-        <Link to={'/'} className="hover:underline" >
-          Features
-        </Link>
-        <Link to={'/'} className="hover:underline" >
-          Pricing
-        </Link>
-        <Link to={'/'} className="hover:underline" >
+      <nav className="hidden md:flex items-center space-x-2">
+         <a href="#features" className="hover:underline" >
+          Features</a>
+        <Link to={'/contact'} className="hover:underline" >
           Contact
         </Link>
+        <Link to={'/signin'}>
         <Button>Sign In</Button>
+        </Link>
+        <Link to={'/signin'}>
+        <Button>Get Started</Button>
+        </Link>
+        
       </nav>
       <Button className="md:hidden">
         <MenuIcon className="h-6 w-6" />
@@ -38,7 +38,12 @@ import { Textarea } from "@/components/ui/textarea"
               Our AI-powered platform analyzes your legacy code, provides refactoring recommendations, and seamlessly
               deploys the updated codebase.
             </p>
-            <Button variant="primary">Get Started</Button>
+            <Link
+                    className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
+                    to="/signup"
+                  >
+                    Get started
+                  </Link>
           </div>
           <div>
             <img
@@ -55,83 +60,58 @@ import { Textarea } from "@/components/ui/textarea"
           </div>
         </div>
       </section>
-      <section className="py-20 md:py-32 bg-gray-100 dark:bg-gray-800" id="features">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Key Features</h2>
-            <p className="text-lg md:text-xl text-gray-500 dark:text-gray-400">
-              Streamline your legacy code migration with our powerful tools.
-            </p>
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
+                  Key Features
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Streamline Your Legacy Code Migration
+                </h2>
+                <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                  Our AI-powered platform analyzes your legacy codebase, identifies modernization opportunities, and
+                  seamlessly migrates your application to the latest technologies.
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+              <div className="flex flex-col justify-center space-y-4">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold">Automated Code Analysis</h3>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Our AI-powered code analysis engine scans your legacy codebase, identifies technical debt, and
+                    recommends the optimal migration path.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold">Seamless Migration</h3>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Our platform handles the entire migration process, from refactoring your code to deploying the
+                    modernized application, ensuring a smooth transition.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold">Continuous Monitoring</h3>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    After the migration, our platform continuously monitors your application, identifying any issues and
+                    providing real-time insights to ensure ongoing success.
+                  </p>
+                </div>
+              </div>
+              <img
+                alt="Image"
+                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+                height="310"
+                src="/placeholder.svg"
+                width="550"
+              />
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6">
-              <CodeIcon className="h-12 w-12 text-gray-500 dark:text-gray-400 mb-4" />
-              <h3 className="text-xl font-bold mb-2">Automated Code Analysis</h3>
-              <p className="text-gray-500 dark:text-gray-400">
-                Our AI-powered engine analyzes your legacy codebase and identifies areas for improvement.
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6">
-              <RedoIcon className="h-12 w-12 text-gray-500 dark:text-gray-400 mb-4" />
-              <h3 className="text-xl font-bold mb-2">Refactoring Recommendations</h3>
-              <p className="text-gray-500 dark:text-gray-400">
-                Get tailored refactoring suggestions to modernize your legacy code and improve maintainability.
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-950 rounded-lg shadow-md p-6">
-              <CommandIcon />
-              <h3 className="text-xl font-bold mb-2">Seamless Deployment</h3>
-              <p className="text-gray-500 dark:text-gray-400">
-                Our platform handles the entire migration process, ensuring a smooth transition to the updated
-                codebase.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
      
-      <section className="py-20 md:py-32" id="contact">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="bg-gray-900 text-white rounded-lg shadow-md p-8 md:p-12">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
-                <p className="text-lg md:text-xl mb-8">Have questions or need help? Contact our team.</p>
-                <form className="space-y-4">
-                  <div>
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="John Doe" type="text" />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" placeholder="john@example.com" type="email" />
-                  </div>
-                  <div>
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" placeholder="How can we help you?" rows={4} />
-                  </div>
-                  <Button type="submit" variant="primary">
-                    Submit
-                  </Button>
-                </form>
-              </div>
-              <div className="flex items-center justify-center">
-                <img
-                  alt="Contact Us"
-                  className="rounded-lg"
-                  height="400"
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "400/400",
-                    objectFit: "cover",
-                  }}
-                  width="400"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
     </main>
     <footer className="bg-gray-900 text-white py-8">
       <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between">

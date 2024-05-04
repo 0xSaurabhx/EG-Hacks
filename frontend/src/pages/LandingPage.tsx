@@ -6,29 +6,31 @@ import { IoDocumentOutline } from "react-icons/io5";
  const LandingPage = () => {
   return (
     <>
-    <header className="flex items-center justify-between px-4 py-3 bg-gray-900 text-white shadow-md">
-      <Link to={'/'} className="flex items-center" >
+        <div className="flex flex-col min-h-[100dvh]">
+    <header className="px-4 lg:px-6 h-14 flex items-center justify-between  py-3 bg-gray-900 text-white shadow-md">
+    <Link to={'/'} className="flex items-center" >
         <FlagIcon className="h-6 w-6 mr-2" />
         <span className="text-lg font-bold">Legacy Code Migrator</span>
       </Link>
-      <nav className="hidden md:flex items-center space-x-2">
-         <a href="#features" className="hover:underline" >
-          Features</a>
-        <Link to={'/contact'} className="hover:underline" >
+      <div className="flex justify-center items-center gap-4 sm:gap-6">
+      <a href="#features" className=" text-sm font-medium hover:underline underline-offset-4" >
+          Features
+        </a>
+        <Link to={'/contact'} className=" text-sm font-medium hover:underline underline-offset-4" >
           Contact
         </Link>
-        <Link to={'/signin'}>
-        <Button>Sign In</Button>
+        <Link to={'/signin'} className=" text-sm font-medium hover:underline underline-offset-4" >
+          Sign In
         </Link>
-        <Link to={'/signin'}>
-        <Button>Get Started</Button>
+        <Link to={'/signup'}
+          className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+          
+        >
+          Get Started
         </Link>
-        
-      </nav>
-      <Button className="md:hidden">
-        <MenuIcon className="h-6 w-6" />
-      </Button>
+      </div>
     </header>
+     
     <main>
       <section className="bg-gray-900 text-white py-20 md:py-32">
         <div className="container mx-auto px-4 md:px-8 grid md:grid-cols-2 gap-8 items-center">
@@ -132,6 +134,7 @@ import { IoDocumentOutline } from "react-icons/io5";
         </nav>
       </div>
     </footer>
+    </div>
   </>
 )
 }

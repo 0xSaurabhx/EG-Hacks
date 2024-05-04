@@ -38,7 +38,7 @@ import { IoDocumentOutline } from "react-icons/io5";
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Modernize Your Legacy Code with Ease</h1>
             <p className="text-lg md:text-xl mb-8">
               Our AI-powered platform analyzes your legacy code, provides refactoring recommendations, and seamlessly
-              deploys the updated codebase.
+              provides updated codebase.
             </p>
             <Link
                     className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-8 text-sm font-medium shadow-sm transition-colors text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
@@ -49,20 +49,20 @@ import { IoDocumentOutline } from "react-icons/io5";
           </div>
           <div>
             <img
-              alt="Legacy Code Migration"
+              alt="Legacy Code Migration Hero Image"
               className="rounded-lg"
               height="400"
-              src="/placeholder.svg"
+              src="/Hero.png"
               style={{
                 aspectRatio: "600/400",
-                objectFit: "cover",
+                objectFit: "fill",
               }}
               width="600"
             />
           </div>
         </div>
       </section>
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800" id="features">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -90,7 +90,7 @@ import { IoDocumentOutline } from "react-icons/io5";
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold">Seamless Migration</h3>
                   <p className="text-gray-500 dark:text-gray-400">
-                    Our platform handles the entire migration process, from refactoring your code to deploying the
+                    Our platform handles the entire migration process, from refactoring your code to the
                     modernized application, ensuring a smooth transition.
                   </p>
                 </div>
@@ -106,7 +106,11 @@ import { IoDocumentOutline } from "react-icons/io5";
                 alt="Image"
                 className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
                 height="310"
-                src="/placeholder.svg"
+                style={{
+                  aspectRatio: "600/400",
+                  objectFit: "cover",
+                }}
+                src="/Featurehero.png"
                 width="550"
               />
             </div>
@@ -128,7 +132,7 @@ import { IoDocumentOutline } from "react-icons/io5";
           <Link  to={'/'} className="hover:underline">
             Terms of Service
           </Link>
-          <Link to={'/'} className="hover:underline">
+          <Link to={'/contact'} className="hover:underline">
             Contact Us
           </Link>
         </nav>

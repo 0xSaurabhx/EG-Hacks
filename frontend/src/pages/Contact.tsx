@@ -10,7 +10,7 @@ const Contact = () => {
       <section className="py-20 md:py-32" id="contact">
         <div className="container mx-auto px-4 md:px-8">
           <div className="bg-gray-900 text-white rounded-lg shadow-md p-8 md:p-12">
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-1 gap-8">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
                 <p className="text-lg md:text-xl mb-8">Have questions or need help? Contact our team.</p>
@@ -32,19 +32,7 @@ const Contact = () => {
                   </Button>
                 </form>
               </div>
-              <div className="flex items-center justify-center">
-                <img
-                  alt="Contact Us"
-                  className="rounded-lg"
-                  height="400"
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "400/400",
-                    objectFit: "cover",
-                  }}
-                  width="400"
-                />
-              </div>
+            
             </div>
           </div>
         </div>

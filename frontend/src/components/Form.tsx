@@ -43,12 +43,11 @@ const Form = ({type}: {type: "signup" | "signin"}) => {
       
     {type==="signup" ?   <LabelledInput label="Password" placeholder="Create a password" onChange={(e) => setPostInputs({...postInputs, password: e.target.value})} type="password" /> : <LabelledInput label="Password" placeholder="Enter your password" onChange={(e) => setPostInputs({...postInputs, password: e.target.value})} type="password" />}  
       </div>
-       <button 
-        className="inline-flex items-center mb-5  bg-black text-white justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
-        type="submit"
-      >{type==="signup" ? "Get started" : "Sign in"}
-       
-      </button>
+      <button className="inline-flex items-center mb-5 bg-black text-white justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full" type="submit">
+  <Link to="/chatbot">
+    {type === "signup" ? "Get started" : "Sign in"}
+  </Link>
+</button>
     </div>
     
     <div className="mt-4 mb-4 text-center text-sm">

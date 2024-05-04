@@ -1,31 +1,82 @@
-import React from 'react';
-import "../styles/style.css"// Import the CSS file
+import React, { useState } from 'react';
+import './Chatbot.css'; // Assuming you have your custom CSS in App.css
 
-const Chatbox = () => {
-  return (
-    <div className="chatbox">
-      <div className="chatboxsupport">
-        <div className="chatboxheader">Chat support!</div>
-        <div className="chatboxmessages">
-          <div>
-            <div className="messagesitem messagesitem--visitor">Hi!</div>
-            <div className="messagesitem messagesitem--operator">What is it?</div>
-            <div className="messagesitem messagesitem--typing">
-              <span className="messagesdot"></span>
-              <span className="messagesdot"></span>
-              <span className="messagesdot"></span>
+function Chatbot() {
+    const [messages, setMessages] = useState([]);
+    const [inputText, setInputText] = useState('');
+
+    const sendMessage = () => {
+        if (inputText.trim() === '') return;
+        
+        const date = new Date();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const str_time = hour + ":" + minute;
+
+        const newMessage = {
+            text: inputText,
+            time: str_time,
+            isUser: true
+        };
+
+        setMessages([...messages, newMessage]);
+        setInputText('');
+    };
+
+    return (
+        <div className="container">
+            <div className="row padded_row">
+                {/* Right side content */}
+                <div className="col-md-7">
+                    <div className="chat_window">
+                        <div className="top_menu">
+                            <div className="title">ChatBot - Jarvis</div>
+                        </div>
+                        <ul className="messages">
+                            {messages.map((message, index) => (
+                                <li key={index} className={message.isUser ? "message_user" : "message_bot"}>
+                                    {message.text}
+                                    <span className="time_date">{message.time}</span>
+                                </li>
+                            ))}
+                        </ul>
+                        <div className="bottom_wrapper">
+                            <input 
+                                id="msg_input" 
+                                placeholder="Say Hi to begin chat..."
+                                value={inputText}
+                                onChange={(e) => setInputText(e.target.value)}
+                            />
+                            <div id="send_button" className="app_button_1" onClick={sendMessage}>Send</div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Left side content */}
+                <div className="col-md-5">
+                    <div className="chat_window">
+                        <div className="top_menu">
+                            <div className="title">Help</div>
+                        </div>
+                        <div className="panel-group" id="accordion">
+                            <div className="panel panel-default">
+                                <div className="panel-heading">
+                                    <h4 className="panel-title">
+                                        <a className="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">Lorem ipsum</a>
+                                    </h4>
+                                </div>
+                                <div id="collapse1" className="panel-collapse collapse in">
+                                    <div className="panel-body">
+                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div className="chatboxfooter">
-          <input type="text" placeholder="Write a message" />
-        </div>
-      </div>
-      <div className="chatboxbutton">
-        <button>Branch-1</button>
-      </div>
-    </div>
-  );
-};
+    );
+}
 
-export default Chatbox;
+export default Chatbot;

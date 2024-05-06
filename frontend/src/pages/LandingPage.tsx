@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { IoDocumentOutline } from "react-icons/io5"; 
+
+import Footer from "../components/Footer"
 
 
  const LandingPage = () => {
@@ -119,25 +119,7 @@ import { IoDocumentOutline } from "react-icons/io5";
      
       
     </main>
-    <footer className="bg-gray-900 text-white py-8">
-      <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between">
-        <div className="flex items-center">
-          <FlagIcon className="h-6 w-6 mr-2" />
-          <span className="text-lg font-bold">Legacy Code Migrator</span>
-        </div>
-        <nav className="flex items-center space-x-4 mt-4 md:mt-0">
-          <Link to={'/'} className="hover:underline" >
-            Privacy Policy
-          </Link>
-          <Link  to={'/'} className="hover:underline">
-            Terms of Service
-          </Link>
-          <Link to={'/contact'} className="hover:underline">
-            Contact Us
-          </Link>
-        </nav>
-      </div>
-    </footer>
+   <Footer />
     </div>
   </>
 )

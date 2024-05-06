@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Chatbot.css'; // Assuming you have your custom CSS in App.css
-
+import {Header} from "../components/Header";
 function Chatbot() {
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
@@ -24,6 +24,8 @@ function Chatbot() {
     };
 
     return (
+        <>
+   <Header></Header>
         <div className="container">
             <div className="row padded_row">
                 {/* Right side content */}
@@ -76,6 +78,8 @@ function Chatbot() {
                 </div>
             </div>
         </div>
+        </>
+     
     );
 }
 

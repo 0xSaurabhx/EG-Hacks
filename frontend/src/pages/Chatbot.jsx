@@ -93,7 +93,7 @@ function Chatbot() {
               <div className="rounded-md border border-gray-200 color p-4 shadow-sm dark:border-gray-700 dark:bg-gray-950">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">
-                    Legacy Code Conversion
+                    chat
                   </h3>
                   <div className="text-sm text-gray-100 dark:text-gray-400">
                     
@@ -112,7 +112,7 @@ function Chatbot() {
               <div className="rounded-md border border-gray-200  color p-4 shadow-sm dark:border-gray-700 dark:bg-gray-950">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">
-                    Legacy Code Conversion
+                    chat
                   </h3>
                   <div className="text-sm text-gray-100 dark:text-gray-400">
                    

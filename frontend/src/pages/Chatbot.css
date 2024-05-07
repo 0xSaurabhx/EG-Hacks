@@ -1,38 +1,61 @@
-.App {
-    display: grid;
-    grid-template-columns: 20% 80%;
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.wrapper{
+    height: 100vh;
+    width: 100vw;
+}
+
+.App {
+    overflow-x: hidden;
+    position: relative;
+    margin: 0;
+    /* padding: 1rem; */
     background: rgb(3, 0, 31);
     color: white;
     font-family: 'Poppins', sans-serif;
     font-size: small;
     font-weight: 400;
-    font-size: 50%;
+    font-size: 70%;
+
+    /* border-left: 0.2rem solid white; */
+    display: flex;
     align-items: center;
-    min-height: 100vh;
-    font-size: 15px;
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.sideBar {
+   /* margin-right: 3rem; */
+      
+    /* width: 100%; */
+
+    border-right: 0.1rem solid white;
     
 }
 
-.App {
-    min-height: 100vh;
-    align-items: center;
-}
-
-.sideBar {
-    /* border-left: 1px solid white; Border from the left */
-    /* padding-left: 1rem;  */
-    /* padding-left: 1rem; */
-}
-
 .main {
- 
+    position: relative;
+    /* background: #fdcece; */
+    height: 70%;
+    padding: 3rem;
+    width: 70%;
+    margin: auto;
 }
 
 .upperSideTop {
     display: flex;
+    height: 10rem;
+    margin-left: 1rem;
+       
+    width: 100%;
+    
+
 }
 
 .brand {
@@ -48,40 +71,39 @@
     padding: 1rem;
     display: flex;
     align-items: center;
-    height: 70%;
+    height: 80%;
+    /* border-right: 0.5px solid white;
+    width: 100% */
+    ;
+    
 }
 
 .upperSideBottom {
     padding: 1rem;
-    padding-bottom: 8rem;
-    border-bottom: 0.25px solid rgb(56, 53, 53);
+    padding-bottom: 28rem;
     height: 70%;
     padding-top: 10px;
     align-items: center;
+    
+;
     
    
 }
 
 .lowerSide {
-    padding-top: 1rem;
-   
-}
-.color{
-    background: rgb(3, 0, 31); 
+    border-top: 1px solid white;
 }
 
 .query {
-    /* padding-bottom: 5rem; */
+    padding-bottom: 5rem;
 }
 .midBtn{
     background: #5A4BFF;
     border: none;
     color: white;
-   
-    padding: 1.3rem;
-    font: size 3rem ;
-    width: 7rem;
-    height: 1rem;
+    font: size 4.5rem ;
+    width: 9rem;
+    height: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,9 +119,10 @@
    
 
 }
-.upperSide{
-    width: 50%;
-border-right: 0.25px solid rgb(56, 53, 53);
+.upperSide{  width: 30%;
+    border-right: 0.5px solid rgb(56, 53, 53);
+    
+   
    
 }
 .query {
@@ -109,7 +132,7 @@ border-right: 0.25px solid rgb(56, 53, 53);
     width: 10rem; /* Adjusted width */
     height: 3rem; /* Adjusted height */
     border-radius: 0.4rem; /* Adjusted border radius */
-    border: 1px solid rgb(98, 98, 98, 1);
+   
     padding: 0.5rem; /* Adjusted padding */
     text-align: center;
 }
@@ -125,7 +148,7 @@ border-right: 0.25px solid rgb(56, 53, 53);
     margin: 0.6rem;
     display: flex;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
 .listitemsImg{
     margin-bottom: 0.5rem;
@@ -137,4 +160,52 @@ border-right: 0.25px solid rgb(56, 53, 53);
 }
 .listItems:nth-child(3)>.listItemsImg{
     margin-right: 0.5rem;
+}
+
+.chat{
+
+    height: 100px;
+    width: 100px;
+}
+
+.chats{
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
+    
+    width: fit-content;
+    height: fit-content;
+    padding: 2rem;
+    width: 90%;
+}
+
+#gpt{
+    background: #4b4b4b;
+}
+
+.inp{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* background: #cc3f3f; */
+    display: flex ;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 6%;
+    
+}
+
+#input{
+    border-radius: 1rem;
+    width: 90%;
+    padding: 0 2rem;
+    outline: none;
+    color: #000;
+}
+
+.message{
+    width: 100%;
+}
+
+.message p{
+    width: 100%;
 }

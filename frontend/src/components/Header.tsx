@@ -21,7 +21,7 @@ export const Header = () => {
         
               <HoverCardTrigger asChild>
               
-                <div className="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-2 text-sm font-medium  dark:bg-gray-800 dark:hover:bg-gray-700">
+                <div className="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-2 text-sm font-medium  ">
           
                 <Avatar size={"big"} name={ 'Default'} />
 
@@ -43,7 +43,7 @@ export const Header = () => {
                     <div>
                    
                       <h4 className="text-sm font-semibold">{'Default'}</h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">@{'Default'}</p>
+                      <p className="text-xs text-gray-500 ">@{'Default'}</p>
                     </div>
                   </div>
                   <div className="space-y-1">

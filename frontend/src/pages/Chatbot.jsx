@@ -1,85 +1,35 @@
-import React, { useState } from 'react';
-import './Chatbot.css'; // Assuming you have your custom CSS in App.css
-import {Header} from "../components/Header";
+import React from 'react';
+import './Chatbot.css';
+import gptLogo from "../assets/chatgpt.svg";
+import addBtn from '../assets/add-30.png';
+import msgIcon from '../assets/message.svg'
+import home from'../assets/home.svg'
+import saved from'../assets/bookmark.svg'
+import rocket from'../assets/rocket.svg'
 function Chatbot() {
-    const [messages, setMessages] = useState([]);
-    const [inputText, setInputText] = useState('');
-
-    const sendMessage = () => {
-        if (inputText.trim() === '') return;
-        
-        const date = new Date();
-        const hour = date.getHours();
-        const minute = date.getMinutes();
-        const str_time = hour + ":" + minute;
-
-        const newMessage = {
-            text: inputText,
-            time: str_time,
-            isUser: true
-        };
-
-        setMessages([...messages, newMessage]);
-        setInputText('');
-    };
-
     return (
-        <>
-   <Header></Header>
-        <div className="container">
-            <div className="row padded_row">
-                {/* Right side content */}
-                <div className="col-md-7">
-                    <div className="chat_window">
-                        <div className="top_menu">
-                            <div className="title">ChatBot - Jarvis</div>
-                        </div>
-                        <ul className="messages">
-                            {messages.map((message, index) => (
-                                <li key={index} className={message.isUser ? "message_user" : "message_bot"}>
-                                    {message.text}
-                                    <span className="time_date">{message.time}</span>
-                                </li>
-                            ))}
-                        </ul>
-                        <div className="bottom_wrapper">
-                            <input 
-                                id="msg_input" 
-                                placeholder="Say Hi to begin chat..."
-                                value={inputText}
-                                onChange={(e) => setInputText(e.target.value)}
-                            />
-                            <div id="send_button" className="app_button_1" onClick={sendMessage}>Send</div>
-                        </div>
+        <div className="App">
+            <div className="sideBar">
+                <div className="upperSide">
+                    <div className="upperSideTop">
+                        <img src={gptLogo} alt="" className="logo" />
+                        <span className="brand">Code</span>
+                    </div>
+                    <button className="midBtn"><img src={addBtn} alt="new chat" className="addBtn" />New Chat</button>
+                    <div className="upperSideBottom">
+                        <button className="query"><img src={msgIcon} alt="Query" />What is programming?</button>
+                        <button className="query"><img src={msgIcon}alt="Query" />How to use an API</button>
                     </div>
                 </div>
-
-                {/* Left side content */}
-                <div className="col-md-5">
-                    <div className="chat_window">
-                        <div className="top_menu">
-                            <div className="title">Help</div>
-                        </div>
-                        <div className="panel-group" id="accordion">
-                            <div className="panel panel-default">
-                                <div className="panel-heading">
-                                    <h4 className="panel-title">
-                                        <a className="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">Lorem ipsum</a>
-                                    </h4>
-                                </div>
-                                <div id="collapse1" className="panel-collapse collapse in">
-                                    <div className="panel-body">
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          
+                <div className="lowerSide">
+                    <div className="listItems"><img src={home} alt="" className="listitemsImg" />Home</div>
+                    <div className="listItems"><img src={saved} alt="" className="listitemsImg" />Saved</div>
+                    <div className="listItems"><img src={rocket} alt="" className="listitemsImg" />UpgradeToPro</div>
                 </div>
             </div>
+            <div className="main"></div>
         </div>
-        </>
-     
     );
 }
 

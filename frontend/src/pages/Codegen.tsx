@@ -4,9 +4,64 @@ import { Input } from "@/components/ui/input"
 import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Header } from "@/components/Header"
-
+import { useState } from "react"
+import axios from 'axios'
 export default function Codegen() {
+  const [dropInputs, setDropInputs] = useState({
+    from: "",
+    to: "",
+    file: null,
+  });
+  const [convertedCode, setConvertedCode] = useState('');
+  const handleFileChange = (event) => {
+    setDropInputs(prevState => ({
+      ...prevState,
+      file: event.target.files[0],
+    }));
+  };
+
+  const handleFromChange = (event) => {
+    setDropInputs(prevState => ({
+      ...prevState,
+      from: event.target.value,
+    }));
+  };
+
+  const handleToChange = (event) => {
+    setDropInputs(prevState => ({
+      ...prevState,
+      to: event.target.value,
+    }));
+  };
+ 
+  const handleConvert = async () => {
+    const { from, to, file } = dropInputs;
+    if (file && from && to) {
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const response = await axios.post('http://127.0.0.1:8181/convert', formData, {
+          params: {
+            from: from,
+            to: to,
+          },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Response:', response);
+        if (response.status === 200) {
+          setConvertedCode(response.data);
+        } else {
+          console.error('Conversion failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error during conversion:', error);
+      }
+    }
+  };
   
+
   return (
     <>
     <Header />
@@ -16,11 +71,24 @@ export default function Codegen() {
         <div className="flex w-full max-w-md flex-col items-center justify-center gap-4">
           <div className="grid w-full gap-2">
             <Label htmlFor="file-upload">Upload Legacy Code</Label>
-            <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" />
+            <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" onChange={handleFileChange} />
+          </div>
+          <div className="grid w-full gap-2">
+            <Label htmlFor="target-language">Legacy code</Label>
+            <Select onChange={handleFromChange} >
+              <SelectTrigger className="text-gray-500 ">
+                <SelectValue placeholder="Select target language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="javascript">Cobol</SelectItem>
+                <SelectItem value="python">Virtual basic</SelectItem>
+                <SelectItem value="csharp">Delphi</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="grid w-full gap-2">
             <Label htmlFor="target-language">Convert to</Label>
-            <Select >
+            <Select onChange={handleToChange}>
               <SelectTrigger className="text-gray-500 ">
                 <SelectValue placeholder="Select target language" />
               </SelectTrigger>
@@ -31,12 +99,12 @@ export default function Codegen() {
               </SelectContent>
             </Select>
           </div>
-          <Button className="w-full">Convert</Button>
+          <Button onClick={handleConvert} className="w-full">Convert</Button>
           <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
             <h3 className="text-lg font-semibold">Converted Code</h3>
             <div className="flex items-center justify-between">
               <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-                {`Modern code`}
+              {convertedCode}
               </pre>
               <CopyIcon className="rounded-full cursor-pointer" size="icon" variant="outline" />
             </div>

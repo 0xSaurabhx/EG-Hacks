@@ -12,19 +12,20 @@ app = Flask(__name__)
 CORS(app)
 
 DATABASE_URL = "postgres://default:xr4Mlmbi8RzI@ep-autumn-sea-a1loat7s.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require"
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-connection_pool = pool.SimpleConnectionPool(1, 10, DATABASE_URL, sslmode='require')
+conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+connection_pool = pool.SimpleConnectionPool(1, 10, DATABASE_URL, sslmode="require")
 
 client = Groq(
     api_key=os.environ["MISTRAL_API_KEY"],
 )
 
 
-ALLOWED_EXTENSIONS = {'pas', 'dfm', 'cob', 'cbl', 'vb', 'vbs'}
+ALLOWED_EXTENSIONS = {"pas", "dfm", "cob", "cbl", "vb", "vbs"}
+
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route("/", methods=["GET"])
 def home():
@@ -34,18 +35,21 @@ def home():
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json()
-   
-    email = data.get('email')
-    password = data.get('password')
 
-    if  not email or not password:
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
         return {"status": 400, "error": "Email and password are required"}, 400
 
     hashed_password = generate_password_hash(password)
 
     conn = connection_pool.getconn()
     with conn.cursor() as cur:
-        cur.execute("INSERT INTO users (email, password) VALUES (%s, %s)", (email, hashed_password))
+        cur.execute(
+            "INSERT INTO users (email, password) VALUES (%s, %s)",
+            (email, hashed_password),
+        )
     conn.commit()
     connection_pool.putconn(conn)
 
@@ -55,8 +59,8 @@ def signup():
 @app.route("/signin", methods=["POST"])
 def signin():
     data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
+    email = data.get("email")
+    password = data.get("password")
 
     if not email or not password:
         return {"status": 400, "error": "Email and password are required"}, 400
@@ -82,17 +86,19 @@ def signin():
 
 @app.route("/convert", methods=["POST"])
 def convert():
-    if 'file' not in request.files:
+    if "file" not in request.files:
         return {"status": 400, "error": "No file part"}, 400
-    
-    file = request.files['file']
-    if file.filename == '':
+
+    file = request.files["file"]
+    if file.filename == "":
         return {"status": 400, "error": "No selected file"}, 400
 
     if file and allowed_file(file.filename):
-        code = file.read().decode('utf-8')  
-        from_code = request.args.get('from')
-        to_code = request.args.get('to')
+        code = file.read().decode("utf-8")
+        from_code = request.form.get("from")
+        to_code = request.form.get("to")
+
+        
         chat_completion = client.chat.completions.create(
             messages=[
                 {
@@ -109,7 +115,5 @@ def convert():
     return {"status": 400, "error": "Invalid file extension"}, 400
 
 
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, port=8181)

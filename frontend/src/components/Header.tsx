@@ -15,7 +15,12 @@ export const Header = () => {
         <span className="text-lg font-bold">Legacy Code Migrator</span>
         </div>
         <div className="flex items-center">
-           
+        <div className="flex justify-center items-center gap-4 sm:gap-6">
+        <Link to={'/chatbot'} className=" inline-flex h-10 items-center m-2 mr-10 justify-center rounded-md border font-bold  border-gray-200 border-gray-200 bg-white px-8 text-sm shadow-sm transition-colors text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300" >
+          Docs
+        </Link>
+          </div>
+
             <div className="relative">
             <HoverCard>
         

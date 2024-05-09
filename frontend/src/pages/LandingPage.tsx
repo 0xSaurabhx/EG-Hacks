@@ -46,18 +46,7 @@ import Footer from "../components/Footer"
                   >
                     Get started
                   </Link>
-                  <Link
-                    className="inline-flex m-2 h-10 items-center justify-center rounded-md border font-bold  border-gray-200 border-gray-200 bg-white px-8 text-sm shadow-sm transition-colors text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-                    to="/codegen"
-                  >
-                    Code Gen
-                  </Link>
-                  <Link
-                    className="inline-flex h-10 m-2  items-center justify-center rounded-md border font-bold  border-gray-200 border-gray-200 bg-white px-8 text-sm shadow-sm transition-colors text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
-                    to="/chatbot"
-                  >
-                    Chatbot
-                  </Link>
+                
           </div>
           <div>
             <img

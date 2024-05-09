@@ -20,36 +20,24 @@ export default function Codegen() {
     }));
   };
 
-  const handleFromChange = (event) => {
-    setDropInputs(prevState => ({
-      ...prevState,
-      from: event.target.value,
-    }));
-  };
-
-  const handleToChange = (event) => {
-    setDropInputs(prevState => ({
-      ...prevState,
-      to: event.target.value,
-    }));
-  };
- 
   const handleConvert = async () => {
-    const { from, to, file } = dropInputs;
-    if (file && from && to) {
-      const formData = new FormData();
-      formData.append('file', file);
-      try {
-        const response = await axios.post('http://127.0.0.1:8181/convert', formData, {
-          params: {
-            from: from,
-            to: to,
-          },
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        console.log('Response:', response);
+    console.log('Convert button clicked');
+  const { from, to, file } = dropInputs;
+  console.log('Inputs:', { from, to, file });
+  if (file && from && to) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('from', from);
+    formData.append('to', to);
+    console.log('FormData:', formData);
+    try {
+      console.log('Making API request...');
+      const response = await axios.post('http://127.0.0.1:8181/convert', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Response:', response);
         if (response.status === 200) {
           setConvertedCode(response.data);
         } else {
@@ -74,31 +62,32 @@ export default function Codegen() {
             <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" onChange={handleFileChange} />
           </div>
           <div className="grid w-full gap-2">
-            <Label htmlFor="target-language">Legacy code</Label>
-            <Select onChange={handleFromChange} >
-              <SelectTrigger className="text-gray-500 ">
-                <SelectValue placeholder="Select target language" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="javascript">Cobol</SelectItem>
-                <SelectItem value="python">Virtual basic</SelectItem>
-                <SelectItem value="csharp">Delphi</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid w-full gap-2">
-            <Label htmlFor="target-language">Convert to</Label>
-            <Select onChange={handleToChange}>
-              <SelectTrigger className="text-gray-500 ">
-                <SelectValue placeholder="Select target language" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="javascript">Java</SelectItem>
-                <SelectItem value="python">Python</SelectItem>
-                <SelectItem value="csharp">C#</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+      <label htmlFor="from-language" className="py-1 pr-2 text-sm font-semibold">Legacy code</label>
+      <select 
+        id="from-language" 
+        onChange={(e) => setDropInputs(prevState => ({...prevState, from: e.target.value}))}
+        className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <option value="">Select target language</option>
+        <option value="cobol">Cobol</option>
+        <option value="vb">Virtual basic</option>
+        <option value="delphi">Delphi</option>
+      </select>
+    </div>
+<div className="grid w-full gap-2">
+      <label htmlFor="to-language" className="py-1.5  pr-2 text-sm font-semibold">Convert to</label>
+      <select 
+        id="to-language" 
+        onChange={(e) => setDropInputs(prevState => ({...prevState, to: e.target.value}))}
+        className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <option value="">Select target language</option>
+        <option value="java">Java</option>
+        <option value="python">Python</option>
+        <option value="csharp">C#</option>
+      </select>
+      
+    </div>
           <Button onClick={handleConvert} className="w-full">Convert</Button>
           <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
             <h3 className="text-lg font-semibold">Converted Code</h3>
@@ -117,19 +106,35 @@ export default function Codegen() {
           <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm ">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Legacy Code Conversion</h3>
-              <div className="text-sm text-gray-500 ">Date</div>
+              <div className="text-sm text-gray-500 ">2024-05-10</div>
             </div>
           
             <div className="flex items-center justify-between">
               <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900">
-                {` Legacy Code
+                {` Legacy Code- COBOL
+                IDENTIFICATION DIVISION.
+                PROGRAM-ID. HELLO-WORLD.
+                PROCEDURE DIVISION.
+                    DISPLAY 'Hello, World!'.
+                    STOP RUN.
+                
             `}
               </pre>
              
             </div>
             <div className="flex items-center justify-between">
               <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-                {`modern code
+                {`modern code- C#
+                
+                using System;
+                
+                class HelloWorld
+                {
+                    static void Main()
+                    {
+                        Console.WriteLine("Hello, World!");
+                    }
+                }
                 `}
               </pre>
              
@@ -138,18 +143,44 @@ export default function Codegen() {
           <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm ">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Legacy Code Conversion</h3>
-              <div className="text-sm text-gray-500 dark:text-gray-400">Date</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">2024-05-10</div>
             </div>
            
             <div className="flex items-center justify-between">
               <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-                {`Legacy code`}
+                {`Legacy code- VB
+                Module Module1
+                Sub Main()
+                    Dim num As Integer = 5
+                    Dim factorial As Integer = 1
+                    For i = 1 To num
+                        factorial *= i
+                    Next
+                    Console.WriteLine("Factorial of " & num & " is " & factorial)
+                End Sub
+            End Module
+            
+                `}
               </pre>
               
             </div>
             <div className="flex items-center justify-between">
               <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-                {` Modern Code
+                {`Modern Code- Java
+                
+                using System;
+
+                class Program {
+                    static void Main() {
+                        int num = 5;
+                        int factorial = 1;
+                        for (int i = 1; i <= num; i++) {
+                            factorial *= i;
+                        }
+                        Console.WriteLine("Factorial of " + num + " is " + factorial);
+                    }
+                }
+                
            `}
               </pre>
    

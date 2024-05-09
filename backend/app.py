@@ -1,5 +1,5 @@
 import os
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash,check_password_hash
 import psycopg2
 from psycopg2 import pool
 from flask import Flask, request
@@ -110,6 +110,8 @@ def convert():
             ],
             model="mixtral-8x7b-32768",
         )
+
+
         return chat_completion.choices[0].message.content
 
     return {"status": 400, "error": "Invalid file extension"}, 400

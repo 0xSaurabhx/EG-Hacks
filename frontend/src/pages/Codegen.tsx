@@ -16,7 +16,7 @@ export default function Codegen() {
         <div className="flex w-full max-w-md flex-col items-center justify-center gap-4">
           <div className="grid w-full gap-2">
             <Label htmlFor="file-upload">Upload Legacy Code</Label>
-            <Input accept=".js,.ts,.py,.pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" />
+            <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" />
           </div>
           <div className="grid w-full gap-2">
             <Label htmlFor="target-language">Convert to</Label>

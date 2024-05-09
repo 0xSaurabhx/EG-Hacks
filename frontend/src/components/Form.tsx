@@ -1,19 +1,32 @@
 
-import { Link } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import { ChangeEvent, useState } from "react"
 import { FaEye as Eye, FaEyeSlash as EyeSlash } from 'react-icons/fa';
-
+import axios from "axios";
 
 
 const Form = ({type}: {type: "signup" | "signin"}) => {
- 
+  const navigate=useNavigate();
+
     const [postInputs,setPostInputs]=useState({
         email: "",
         password: "",
-        name: ""
+        
     })
-   
+
     
+   
+    async function sendRequest() {
+      try {
+          await axios.post(`http://127.0.0.1:8181/${type === "signup" ? "signup" : "signin"}`, postInputs);
+         
+          navigate("/codegen");
+      } catch(e) {
+          console.error('Error:', e);  
+         alert("Error occured, please try again.")  
+      }
+  }
+
     
   return (
    
@@ -24,15 +37,7 @@ const Form = ({type}: {type: "signup" | "signin"}) => {
     </div>
     <div className="p-6 space-y-4">
    
-        <div className="space-y-2 mb-5">
-        {type === "signup" ? <LabelledInput label="Name" placeholder="Enter your name" onChange={(e) => {
-                        setPostInputs({
-                            ...postInputs,
-                            name: e.target.value
-                        })
-                    }} /> : null}
-          
-        </div>
+       
        
      
       <div className="space-y-2 mb-5">
@@ -43,10 +48,10 @@ const Form = ({type}: {type: "signup" | "signin"}) => {
       
     {type==="signup" ?   <LabelledInput label="Password" placeholder="Create a password" onChange={(e) => setPostInputs({...postInputs, password: e.target.value})} type="password" /> : <LabelledInput label="Password" placeholder="Enter your password" onChange={(e) => setPostInputs({...postInputs, password: e.target.value})} type="password" />}  
       </div>
-      <button className="inline-flex items-center mb-5 bg-gray-900 text-white justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full" type="submit">
-  <Link to="/codegen">
+      <button  onClick={sendRequest} className="inline-flex items-center mb-5 bg-gray-900 text-white justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full" type="submit">
+  
     {type === "signup" ? "Get started" : "Sign in"}
-  </Link>
+  
 </button>
     </div>
     

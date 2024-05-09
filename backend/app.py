@@ -19,6 +19,7 @@ client = Groq(
     api_key=os.environ["MISTRAL_API_KEY"],
 )
 
+
 ALLOWED_EXTENSIONS = {'pas', 'dfm', 'cob', 'cbl', 'vb', 'vbs'}
 
 def allowed_file(filename):
@@ -33,10 +34,11 @@ def home():
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json()
+   
     email = data.get('email')
     password = data.get('password')
 
-    if not email or not password:
+    if  not email or not password:
         return {"status": 400, "error": "Email and password are required"}, 400
 
     hashed_password = generate_password_hash(password)
@@ -105,6 +107,8 @@ def convert():
         return chat_completion.choices[0].message.content
 
     return {"status": 400, "error": "Invalid file extension"}, 400
+
+
 
 
 if __name__ == '__main__':

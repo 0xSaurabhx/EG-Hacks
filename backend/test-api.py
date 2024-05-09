@@ -13,3 +13,5 @@ try:
     print(response.json())
 except json.decoder.JSONDecodeError:
     print("No JSON object could be decoded")
+
+

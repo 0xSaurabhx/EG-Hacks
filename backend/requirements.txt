@@ -30,7 +30,7 @@ grpcio-status==1.62.2
 h11==0.14.0
 httpcore==0.12.3
 httplib2==0.22.0
-httpx==0.16.1
+httpx
 idna==2.10
 iniconfig==2.0.0
 itsdangerous==2.2.0

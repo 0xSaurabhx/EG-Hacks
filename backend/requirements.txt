@@ -51,8 +51,6 @@ packaging==23.2
 pandas==2.2.2
 pillow==10.3.0
 pluggy==1.5.0
-postgrest==0.16.4
-postgrest-py==0.4.0
 proto-plus==1.23.0
 protobuf==4.25.3
 psycopg2-binary==2.9.9

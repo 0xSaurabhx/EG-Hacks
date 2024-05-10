@@ -13,7 +13,8 @@ import axios from 'axios'
 export default function Codegen() {
 
   const isAuthenticated = localStorage.getItem('user') !== null;
-
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userid = user.id;
   if (!isAuthenticated) {
     return <Navigate to="/signin" replace />;
   }
@@ -21,6 +22,7 @@ export default function Codegen() {
     from: "",
     to: "",
     file: null,
+    userid: userid, // Add userid to state
   });
   const [convertedCode, setConvertedCode] = useState('');
   const handleFileChange = (event) => {
@@ -32,30 +34,33 @@ export default function Codegen() {
 
   const handleConvert = async () => {
     console.log('Convert button clicked');
-  const { from, to, file } = dropInputs;
-  console.log('Inputs:', { from, to, file });
-  if (file && from && to) {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('from', from);
-    formData.append('to', to);
-    console.log('FormData:', formData);
-    try {
-      console.log('Making API request...');
-      const response = await axios.post(API_URL+"/convert", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log('Response:', response);
+    const { from, to, file, userid } = dropInputs;
+    console.log('Inputs:', { from, to, file, userid });
+    if (file && from && to) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('from', from);
+      formData.append('to', to);
+      formData.append('userid', userid); // Append userid to formData
+      console.log('FormData:', formData);
+      try {
+        console.log('Making API request...');
+        const response = await axios.post(API_URL+"/convert", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Response:', response);
         if (response.status === 200) {
           setConvertedCode(response.data);
         } else {
           console.error('Conversion failed with status:', response.status);
         }
       } catch (error) {
-        console.error('Error during conversion:', error);
+        console.error('API request failed with error:', error);
       }
+    } else {
+      console.error('Missing input(s):', { from, to, file, userid });
     }
   };
   

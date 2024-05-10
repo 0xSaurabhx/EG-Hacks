@@ -1,4 +1,5 @@
 import os
+import uuid
 from werkzeug.security import generate_password_hash,check_password_hash
 import psycopg2
 from psycopg2 import pool
@@ -30,7 +31,8 @@ def allowed_file(filename):
 
 @app.route("/", methods=["GET"])
 def home():
-    return "Running on Python with Postgres"
+    con_id = str(uuid.uuid4())
+    return "Running on Python with Postgres ",200
 
 
 @app.route("/signup", methods=["POST"])
@@ -41,7 +43,7 @@ def signup():
     password = data.get("password")
 
     if not email or not password:
-        return {"status": 400, "error": "Email and password are required"}, 400
+        return {"status": 400, "error": "Email and password are required"}, 200
 
     hashed_password = generate_password_hash(password)
 
@@ -51,10 +53,11 @@ def signup():
             "INSERT INTO users (email, password) VALUES (%s, %s)",
             (email, hashed_password),
         )
+        user_id = cur.fetchone()[0]
     conn.commit()
     connection_pool.putconn(conn)
 
-    return {"status": 200, "email": email, "message": "User created successfully"}, 200
+    return {"status": 200, "email": email, "id": user_id, "message": "User created successfully"}, 200
 
 
 @app.route("/signin", methods=["POST"])
@@ -64,41 +67,44 @@ def signin():
     password = data.get("password")
 
     if not email or not password:
-        return {"status": 400, "error": "Email and password are required"}, 400
+        return {"status": 400, "error": "Email and password are required"}, 200
 
     conn = connection_pool.getconn()
     with conn.cursor() as cur:
-        cur.execute("SELECT password FROM users WHERE email = %s", (email,))
+        cur.execute(
+            "SELECT id, password FROM users WHERE email = %s",
+            (email,),
+        )
         result = cur.fetchone()
+        if result is None:
+            return {"status": 400, "error": "User not found"}, 200
 
-    if result is None:
-        connection_pool.putconn(conn)
-        return {"status": 404, "error": "User not found"}, 404
-
-    hashed_password = result[0]
-
-    if not check_password_hash(hashed_password, password):
-        connection_pool.putconn(conn)
-        return {"status": 400, "error": "Invalid password"}, 400
-
+        user_id, hashed_password = result
+        if not check_password_hash(hashed_password, password):
+            return {"status": 400, "error": "Invalid password"}, 200
     connection_pool.putconn(conn)
-    return {"status": 200, "email": email, "message": "Signed in successfully"}, 200
+
+    return {"status": 200, "email": email, "id": user_id, "message": "Signed in successfully"}, 200
 
 
 @app.route("/convert", methods=["POST"])
 def convert():
     if "file" not in request.files:
-        return {"status": 400, "error": "No file part"}, 400
+        return {"status": 400, "error": "No file part"}, 200
 
     file = request.files["file"]
     if file.filename == "":
-        return {"status": 400, "error": "No selected file"}, 400
+        return {"status": 400, "error": "No selected file"}, 200
 
     if file and allowed_file(file.filename):
         code = file.read().decode("utf-8")
         from_code = request.form.get("from")
         to_code = request.form.get("to")
+        user_id = request.form.get("userid")
 
+
+        if not user_id:
+            return {"status": 400, "error": "User ID is required"}, 200
         
         chat_completion = client.chat.completions.create(
             messages=[
@@ -112,11 +118,19 @@ def convert():
             model="mixtral-8x7b-32768",
         )
 
-
-        return chat_completion.choices[0].message.content
+        con_id = str(uuid.uuid4())
+        conn = connection_pool.getconn()
+        with conn.cursor() as cur:
+            cur.execute(
+            "INSERT INTO history (con_id, user_id) VALUES (%s, %s)",
+            (con_id, user_id),
+            )
+        conn.commit()
+        connection_pool.putconn(conn)
+        return chat_completion.choices[0].message.content, 200
 
     return {"status": 400, "error": "Invalid file extension"}, 400
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

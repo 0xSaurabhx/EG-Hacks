@@ -71,7 +71,7 @@ PyYAML==6.0.1
 realtime
 realtime-py==0.1.3
 referencing==0.35.1
-requests==2.25.1
+requests
 rfc3986==1.5.0
 rich==13.7.1
 rpds-py==0.18.0

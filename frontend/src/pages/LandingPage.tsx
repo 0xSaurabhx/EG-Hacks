@@ -10,7 +10,7 @@ import Footer from "../components/Footer"
     <header className="px-4 lg:px-6 h-14 flex items-center justify-between  py-3 bg-gray-900 text-white shadow-md">
     <Link to={'/'} className="flex items-center" >
         <FlagIcon className="h-6 w-6 mr-2" />
-        <span className="text-lg font-bold">Legacy Code Migrator</span>
+        <span className="text-lg font-bold">Codegram</span>
       </Link>
       <div className="flex justify-center items-center gap-4 sm:gap-6">
       <a href="#features" className=" text-sm font-medium hover:underline underline-offset-4" >

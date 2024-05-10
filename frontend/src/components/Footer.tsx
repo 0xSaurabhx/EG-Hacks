@@ -7,7 +7,7 @@ function Footer() {
       <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center">
           <FlagIcon className="h-6 w-6 mr-2" />
-          <span className="text-lg font-bold">Legacy Code Migrator</span>
+          <span className="text-lg font-bold">Codegram</span>
         </div>
         <nav className="flex items-center space-x-4 mt-4 md:mt-0">
           <Link to={'/'} className="hover:underline" >

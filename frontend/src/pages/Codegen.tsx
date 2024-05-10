@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Header } from "@/components/Header"
 import { useState } from "react"
 import axios from 'axios'
-
+import { Spinner } from "@/components/Spinner";
 // @ts-ignore
 
 export default function Codegen() {
@@ -23,6 +23,7 @@ export default function Codegen() {
     file: null,
   });
   const [convertedCode, setConvertedCode] = useState('');
+  const [isConverting, setIsConverting] = useState(false);
   const handleFileChange = (event) => {
     setDropInputs(prevState => ({
       ...prevState,
@@ -31,25 +32,26 @@ export default function Codegen() {
   };
 
   const handleConvert = async () => {
-    console.log('Convert button clicked');
+    setIsConverting(true);
   const { from, to, file } = dropInputs;
-  console.log('Inputs:', { from, to, file });
+ 
   if (file && from && to) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('from', from);
     formData.append('to', to);
-    console.log('FormData:', formData);
+   
     try {
-      console.log('Making API request...');
+      
       const response = await axios.post(API_URL+"/convert", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Response:', response);
+      
         if (response.status === 200) {
           setConvertedCode(response.data);
+          setIsConverting(false);
         } else {
           console.error('Conversion failed with status:', response.status);
         }
@@ -65,7 +67,7 @@ export default function Codegen() {
     <Header />
      <div className="flex min-h-screen w-full">
       <div className="flex flex-col items-center  gap-6 bg-gray-100 p-8  md:w-3/4 overflow-y-auto">
-        <h1 className="text-3xl font-bold tracking-tight mt-20 sm:text-4xl">Legacy to Modern Code Converter</h1>
+        <h1 className="text-3xl font-bold tracking-tight mt-12 sm:text-4xl">Legacy to Modern Code Converter</h1>
         <div className="flex w-full max-w-md flex-col items-center justify-center gap-4">
           <div className="grid w-full gap-2">
             <Label htmlFor="file-upload">Upload Legacy Code</Label>
@@ -98,20 +100,31 @@ export default function Codegen() {
       </select>
       
     </div>
-          <Button onClick={handleConvert} className="w-full">Convert</Button>
-          <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
-            <h3 className="text-lg font-semibold">Converted Code</h3>
-            <div className="flex items-center justify-between">
-              <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-              {convertedCode}
-              </pre>
-              <CopyIcon className="rounded-full cursor-pointer" size="icon" variant="outline" />
-            </div>
-          </div>
+    <Button onClick={handleConvert} className="w-full">Convert</Button>
+    {isConverting && <Spinner />}
+    {convertedCode && (
+      <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
+        <h3 className="text-lg font-semibold">Converted Code</h3>
+        <div className="flex items-center justify-between">
+          <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
+            {convertedCode}
+          </pre>
+          <CopyIcon className="rounded-full cursor-pointer" size="icon" variant="outline" />
+        </div>
+        <div className="flex mt-5 h-5 justify-between">
+    <Button className="w-15">Ask</Button>
+    <Button className="w-15">Debug</Button>
+    <Button className="w-15">Optimize</Button>
+    <Button className="w-15">Explain</Button>
+    </div>
+      </div>
+    )}
+   
+   
         </div>
       </div>
       <div className="flex flex-col items-center  gap-6 bg-gray-50 p-8  md:w-1/4 overflow-y-auto">
-        <h2 className="text-2xl mt-20 font-bold tracking-tight sm:text-3xl">Conversion History</h2>
+        <h2 className="text-2xl mt-12 font-bold tracking-tight sm:text-3xl">Conversion History</h2>
         <div className="flex w-full max-w-md flex-col items-start justify-center gap-4 overflow-y-auto">
           <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm ">
             <div className="flex items-center justify-between">

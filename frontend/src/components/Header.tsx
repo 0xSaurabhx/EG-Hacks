@@ -21,13 +21,13 @@ export const Header = () => {
     return <div className="border-b flex justify-between px-10 py-4">
                 <div  className="flex items-center gap-2">
                 <FlagIcon className="h-6 w-6 mr-2" />
-        <span className="text-lg font-bold">Legacy Code Migrator</span>
+        <span className="text-lg font-bold">Codegram</span>
         </div>
         <div className="flex items-center">
         <div className="flex justify-center items-center gap-4 sm:gap-6">
-        <Link to={'/chatbot'} className=" inline-flex h-10 items-center m-2 mr-10 justify-center rounded-md border font-bold  border-gray-200 border-gray-200 bg-white px-8 text-sm shadow-sm transition-colors text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300" >
+        <div  className=" inline-flex h-10 items-center m-2 mr-10 justify-center cursor-pointer rounded-md border font-bold  border-gray-200 border-gray-200 bg-white px-8 text-sm shadow-sm transition-colors text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300" >
           Docs
-        </Link>
+        </div>
           </div>
 
             <div className="relative">
@@ -35,7 +35,7 @@ export const Header = () => {
         
               <HoverCardTrigger asChild>
               
-                <div className="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-2 text-sm font-medium  ">
+                <div className="flex items-center gap-2 cursor-pointer rounded-full bg-gray-100 px-3 py-2 text-sm font-medium  ">
           
                 <Avatar size={"big"} name={userName} />
 
@@ -79,12 +79,15 @@ export const Header = () => {
 
 
 function Avatar({ name, size = "small" }: { name: string, size?: "small" | "big" }) {
-  return <div className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-600 rounded-full ${size === "small" ? "w-6 h-6" : "w-10 h-10"}`}>
-  <span className={`${size === "small" ? "text-xs" : "text-md"} font-extralight text-gray-300 `}>
-      {name[0]}
-  </span>
-</div>
+  return (
+    <div className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-600 rounded-full ${size === "small" ? "w-6 h-6" : "w-10 h-10"}`}>
+      <span className={`${size === "small" ? "text-xs" : "text-md"} font-extralight text-gray-300 `}>
+        {name[0].toUpperCase()}
+      </span>
+    </div>
+  );
 }
+
 
 //@ts-ignore
 function FlagIcon(props) {

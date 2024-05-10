@@ -21,7 +21,6 @@ export default function App() {
         <Route path="/codegen" element={< Codegen/>} />
       </Routes>
     </BrowserRouter>
-
   </>
   
   )

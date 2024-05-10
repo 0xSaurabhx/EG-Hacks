@@ -1,9 +1,9 @@
 
-import Form from "../components/Form"
-import {Quote2} from "../components/Quote2";
+import Form from "@/components/Form"
 import { Navigate } from 'react-router-dom';
 
-const Signup = () => {
+import {Quote} from "@/components/Quote"
+const Signin = () => {
   const isAuthenticated = localStorage.getItem('user') !== null;
   console.log(isAuthenticated)
   if (isAuthenticated) {
@@ -12,11 +12,11 @@ const Signup = () => {
   return (
     <div>
       <div className="grid grid-cols-1: lg:grid-cols-2  ">
-      <div className="flex justify-center items-center ali my-20 ">
-        <Form type="signup"/>
+      <div className="flex justify-center items-center my-20 ">
+        <Form type="signin"/>
         </div>
         <div className="hiddden lg:block">
-        <Quote2/>
+        <Quote/>
         </div>
        
       </div>
@@ -24,4 +24,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default Signin

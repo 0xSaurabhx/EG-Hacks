@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom"
+import { useEffect, useState } from 'react';
 
 import { HoverCardTrigger, HoverCardContent, HoverCard } from "@/components/ui/hover-card"
 import { Button } from "@/components/ui/button"
@@ -7,6 +8,14 @@ import { Button } from "@/components/ui/button"
 
 
 export const Header = () => {
+  const [userName, setUserName] = useState('Default');
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const email = user.email || '';
+    const name = email.substring(0, email.indexOf('@'));
+    setUserName(name);
+  }, []);
 
 
     return <div className="border-b flex justify-between px-10 py-4">
@@ -28,7 +37,7 @@ export const Header = () => {
               
                 <div className="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-2 text-sm font-medium  ">
           
-                <Avatar size={"big"} name={ 'Default'} />
+                <Avatar size={"big"} name={userName} />
 
 
 
@@ -41,19 +50,19 @@ export const Header = () => {
                 <div className="space-y-2 p-4">
                   <div className="flex items-center gap-3">
                 
-                  <Avatar size={"big"} name={'Default'} />
+                  <Avatar size={"big"} name={userName} />
 
               
              
                     <div>
                    
-                      <h4 className="text-sm font-semibold">{'Default'}</h4>
-                      <p className="text-xs text-gray-500 ">@{'Default'}</p>
+                      <h4 className="text-sm font-semibold">{userName}</h4>
+                      <p className="text-xs text-gray-500 ">@{userName}</p>
                     </div>
                   </div>
                   <div className="space-y-1">
                     <Link to={'/'}>
-                    <Button className="w-full mt-5" size="sm" >
+                    <Button className="w-full mt-5" size="sm" onClick={() => localStorage.removeItem('user')}>
                       Sign Out
                     </Button>
                     </Link>

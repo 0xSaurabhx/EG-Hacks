@@ -1,12 +1,22 @@
 
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { Navigate } from 'react-router-dom';
 
 import { Button } from "@/components/ui/button"
 import { Header } from "@/components/Header"
 import { useState } from "react"
 import axios from 'axios'
+
+// @ts-ignore
+
 export default function Codegen() {
+
+  const isAuthenticated = localStorage.getItem('user') !== null;
+
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
   const [dropInputs, setDropInputs] = useState({
     from: "",
     to: "",

@@ -18,8 +18,8 @@ const Form = ({type}: {type: "signup" | "signin"}) => {
    
     async function sendRequest() {
       try {
-          await axios.post(`http://127.0.0.1:8181/${type === "signup" ? "signup" : "signin"}`, postInputs);
-         
+          const response = await axios.post(`http://127.0.0.1:8181/${type === "signup" ? "signup" : "signin"}`, postInputs);
+          localStorage.setItem('user', JSON.stringify(response.data));
           navigate("/codegen");
       } catch(e) {
           console.error('Error:', e);  

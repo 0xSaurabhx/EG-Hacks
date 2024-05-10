@@ -2,7 +2,7 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Navigate } from 'react-router-dom';
-
+import {API_URL} from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Header } from "@/components/Header"
 import { useState } from "react"
@@ -42,7 +42,7 @@ export default function Codegen() {
     console.log('FormData:', formData);
     try {
       console.log('Making API request...');
-      const response = await axios.post('http://127.0.0.1:8181/convert', formData, {
+      const response = await axios.post(API_URL+"/convert", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

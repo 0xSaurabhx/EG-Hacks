@@ -1,6 +1,7 @@
 
 import { Link,useNavigate } from "react-router-dom"
 import { ChangeEvent, useState } from "react"
+import {API_URL} from "@/lib/utils"
 import { FaEye as Eye, FaEyeSlash as EyeSlash } from 'react-icons/fa';
 import axios from "axios";
 
@@ -18,7 +19,7 @@ const Form = ({type}: {type: "signup" | "signin"}) => {
    
     async function sendRequest() {
       try {
-          const response = await axios.post(`http://127.0.0.1:8181/${type === "signup" ? "signup" : "signin"}`, postInputs);
+          const response = await axios.post(`${API_URL}/${type === "signup" ? "signup" : "signin"}`, postInputs);
           localStorage.setItem('user', JSON.stringify(response.data));
           navigate("/codegen");
       } catch(e) {

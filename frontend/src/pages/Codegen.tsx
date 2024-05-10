@@ -1,12 +1,13 @@
+
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Navigate } from 'react-router-dom';
-import {API_URL} from "@/lib/utils"
+import { API_URL } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Header } from "@/components/Header"
 import { useState } from "react"
 import axios from 'axios'
-import { Spinner } from "@/components/Spinner";
+
 // @ts-ignore
 
 export default function Codegen() {
@@ -17,6 +18,28 @@ export default function Codegen() {
   if (!isAuthenticated) {
     return <Navigate to="/signin" replace />;
   }
+
+  const copyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(convertedCode);
+      console.log('Code copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy code: ', err);
+    }
+  };
+
+  function getFileExtension() {
+    switch (dropInputs.to) {
+      case "java":
+        return "java";
+      case "python":
+        return "py";
+      case "csharp":
+        return "cs";
+      default:
+        return "";
+    }
+  }
   const [dropInputs, setDropInputs] = useState({
     from: "",
     to: "",
@@ -24,7 +47,6 @@ export default function Codegen() {
     userid: userid, // Add userid to state
   });
   const [convertedCode, setConvertedCode] = useState('');
-  const [isConverting, setIsConverting] = useState(false);
   const handleFileChange = (event) => {
     setDropInputs(prevState => ({
       ...prevState,
@@ -33,113 +55,113 @@ export default function Codegen() {
   };
 
   const handleConvert = async () => {
-    setIsConverting(true);
     console.log('Convert button clicked');
-        const { from, to, file, userid } = dropInputs;
-        console.log('Inputs:', { from, to, file, userid });
-        if (file && from && to) {
-          const formData = new FormData();
-          formData.append('file', file);
-          formData.append('from', from);
-          formData.append('to', to);
-          formData.append('userid', userid); // Append userid to formData
-          console.log('FormData:', formData);
-          try {
-            console.log('Making API request...');
-            const response = await axios.post(API_URL+"/convert", formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            });
-            console.log('Response:', response);
-            if (response.status === 200) {
-              setConvertedCode(response.data);
-              setIsConverting(false)
-            } else {
-              console.error('Conversion failed with status:', response.status);
-            }
-          } catch (error) {
-            console.error('API request failed with error:', error);
-          }
+    const { from, to, file, userid } = dropInputs;
+    console.log('Inputs:', { from, to, file, userid });
+    if (file && from && to) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('from', from);
+      formData.append('to', to);
+      formData.append('userid', userid); // Append userid to formData
+      console.log('FormData:', formData);
+      try {
+        console.log('Making API request...');
+        const response = await axios.post(API_URL + "/convert", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Response:', response);
+        if (response.status === 200) {
+          setConvertedCode(response.data);
         } else {
-          console.error('Missing input(s):', { from, to, file, userid });
+          console.error('Conversion failed with status:', response.status);
         }
-      };
-  
+      } catch (error) {
+        console.error('API request failed with error:', error);
+      }
+    } else {
+      console.error('Missing input(s):', { from, to, file, userid });
+    }
+  };
+
 
   return (
     <>
-    <Header />
-     <div className="flex min-h-screen w-full">
-      <div className="flex flex-col items-center  gap-6 bg-gray-100 p-8  md:w-3/4 overflow-y-auto">
-        <h1 className="text-3xl font-bold tracking-tight mt-12 sm:text-4xl">Legacy to Modern Code Converter</h1>
-        <div className="flex w-full max-w-md flex-col items-center justify-center gap-4">
-          <div className="grid w-full gap-2">
-            <Label htmlFor="file-upload">Upload Legacy Code</Label>
-            <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" onChange={handleFileChange} />
-          </div>
-          <div className="grid w-full gap-2">
-      <label htmlFor="from-language" className="py-1 pr-2 text-sm font-semibold">Legacy code</label>
-      <select 
-        id="from-language" 
-        onChange={(e) => setDropInputs(prevState => ({...prevState, from: e.target.value}))}
-        className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        <option value="">Select target language</option>
-        <option value="cobol">Cobol</option>
-        <option value="vb">Virtual basic</option>
-        <option value="delphi">Delphi</option>
-      </select>
-    </div>
-<div className="grid w-full gap-2">
-      <label htmlFor="to-language" className="py-1.5  pr-2 text-sm font-semibold">Convert to</label>
-      <select 
-        id="to-language" 
-        onChange={(e) => setDropInputs(prevState => ({...prevState, to: e.target.value}))}
-        className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        <option value="">Select target language</option>
-        <option value="java">Java</option>
-        <option value="python">Python</option>
-        <option value="csharp">C#</option>
-      </select>
-      
-    </div>
-    <Button onClick={handleConvert} className="w-full">Convert</Button>
-    {isConverting && <Spinner />}
-    {convertedCode && (
-      <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
-        <h3 className="text-lg font-semibold">Converted Code</h3>
-        <div className="flex items-center justify-between">
-          <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-            {convertedCode}
-          </pre>
-          <CopyIcon className="rounded-full cursor-pointer" size="icon" variant="outline" />
-        </div>
-        <div className="flex mt-5 h-5 justify-between">
-    <Button className="w-15">Ask</Button>
-    <Button className="w-15">Debug</Button>
-    <Button className="w-15">Optimize</Button>
-    <Button className="w-15">Explain</Button>
-    </div>
-      </div>
-    )}
-   
-   
-        </div>
-      </div>
-      <div className="flex flex-col items-center  gap-6 bg-gray-50 p-8  md:w-1/4 overflow-y-auto">
-        <h2 className="text-2xl mt-12 font-bold tracking-tight sm:text-3xl">Conversion History</h2>
-        <div className="flex w-full max-w-md flex-col items-start justify-center gap-4 overflow-y-auto">
-          <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm ">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Legacy Code Conversion</h3>
-              <div className="text-sm text-gray-500 ">2024-05-10</div>
+      <Header />
+      <div className="flex min-h-screen w-full">
+        <div className="flex flex-col items-center  gap-6 bg-gray-100 p-8  md:w-3/4 overflow-y-auto">
+          <h1 className="text-3xl font-bold tracking-tight mt-20 sm:text-4xl">Legacy to Modern Code Converter</h1>
+          <div className="flex w-full max-w-md flex-col items-center justify-center gap-4">
+            <div className="grid w-full gap-2">
+              <Label htmlFor="file-upload">Upload Legacy Code</Label>
+              <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" onChange={handleFileChange} />
             </div>
-          
-            <div className="flex items-center justify-between">
-              <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900">
-                {` Legacy Code- COBOL
+            <div className="grid w-full gap-2">
+              <label htmlFor="from-language" className="py-1 pr-2 text-sm font-semibold">Legacy code</label>
+              <select
+                id="from-language"
+                onChange={(e) => setDropInputs(prevState => ({ ...prevState, from: e.target.value }))}
+                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <option value="">Select target language</option>
+                <option value="cobol">Cobol</option>
+                <option value="vb">Virtual basic</option>
+                <option value="delphi">Delphi</option>
+              </select>
+            </div>
+            <div className="grid w-full gap-2">
+              <label htmlFor="to-language" className="py-1.5  pr-2 text-sm font-semibold">Convert to</label>
+              <select
+                id="to-language"
+                onChange={(e) => setDropInputs(prevState => ({ ...prevState, to: e.target.value }))}
+                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <option value="">Select target language</option>
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="csharp">C#</option>
+              </select>
+
+            </div>
+            <Button onClick={handleConvert} className="w-full">Convert</Button>
+            {convertedCode && (
+              <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
+                <h3 className="text-lg font-semibold">Converted Code</h3>
+                <div className="bg-gray-900 rounded-md p-2">
+                  <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-100">
+                    {convertedCode}
+                  </pre>
+                  
+                </div>
+                <div className="flex items-center justify-center mt-2">
+                    <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
+                      Copy
+                    </button>
+                    <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`converted_code.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
+                      Download
+                    </a>
+                  </div>
+              </div>
+            )}
+
+
+
+          </div>
+        </div>
+        <div className="flex flex-col items-center  gap-6 bg-gray-50 p-8  md:w-1/4 overflow-y-auto">
+          <h2 className="text-2xl mt-20 font-bold tracking-tight sm:text-3xl">Conversion History</h2>
+          <div className="flex w-full max-w-md flex-col items-start justify-center gap-4 overflow-y-auto">
+            <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm ">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">Legacy Code Conversion</h3>
+                <div className="text-sm text-gray-500 ">2024-05-10</div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900">
+                  {` Legacy Code- COBOL
                 IDENTIFICATION DIVISION.
                 PROGRAM-ID. HELLO-WORLD.
                 PROCEDURE DIVISION.
@@ -147,12 +169,12 @@ export default function Codegen() {
                     STOP RUN.
                 
             `}
-              </pre>
-             
-            </div>
-            <div className="flex items-center justify-between">
-              <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-                {`modern code- C#
+                </pre>
+
+              </div>
+              <div className="flex items-center justify-between">
+                <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
+                  {`modern code- C#
                 
                 using System;
                 
@@ -164,19 +186,19 @@ export default function Codegen() {
                     }
                 }
                 `}
-              </pre>
-             
+                </pre>
+
+              </div>
             </div>
-          </div>
-          <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm ">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Legacy Code Conversion</h3>
-              <div className="text-sm text-gray-500 dark:text-gray-400">2024-05-10</div>
-            </div>
-           
-            <div className="flex items-center justify-between">
-              <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-                {`Legacy code- VB
+            <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm ">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">Legacy Code Conversion</h3>
+                <div className="text-sm text-gray-500 dark:text-gray-400">2024-05-10</div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
+                  {`Legacy code- VB
                 Module Module1
                 Sub Main()
                     Dim num As Integer = 5
@@ -189,12 +211,12 @@ export default function Codegen() {
             End Module
             
                 `}
-              </pre>
-              
-            </div>
-            <div className="flex items-center justify-between">
-              <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
-                {`Modern Code- Java
+                </pre>
+
+              </div>
+              <div className="flex items-center justify-between">
+                <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900 ">
+                  {`Modern Code- Java
                 
                 using System;
 
@@ -210,15 +232,15 @@ export default function Codegen() {
                 }
                 
            `}
-              </pre>
-   
+                </pre>
+
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
-   
+
   )
 }
 
@@ -243,5 +265,5 @@ function CopyIcon(props) {
     </svg>
   )
 }
-      
+
 

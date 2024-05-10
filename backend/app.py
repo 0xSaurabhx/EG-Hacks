@@ -1,12 +1,16 @@
-import os
+import os, re
 import uuid
-from werkzeug.security import generate_password_hash,check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+import requests
 import psycopg2
+import json
 from psycopg2 import pool
 from flask import Flask, request
 from flask_cors import CORS
 from groq import Groq
 from dotenv import load_dotenv
+import boto3
+from botocore.client import Config
 
 
 load_dotenv()
@@ -15,7 +19,8 @@ CORS(app)
 
 DATABASE_URL = "postgres://default:xr4Mlmbi8RzI@ep-autumn-sea-a1loat7s.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require"
 conn = psycopg2.connect(DATABASE_URL, sslmode="require")
-connection_pool = pool.SimpleConnectionPool(1, 10, DATABASE_URL, sslmode="require")
+connection_pool = pool.SimpleConnectionPool(
+    1, 10, DATABASE_URL, sslmode="require")
 
 client = Groq(
     api_key=os.environ["MISTRAL_API_KEY"],
@@ -32,7 +37,7 @@ def allowed_file(filename):
 @app.route("/", methods=["GET"])
 def home():
     con_id = str(uuid.uuid4())
-    return "Running on Python with Postgres ",200
+    return "Running on Python with Postgres ", 200
 
 
 @app.route("/signup", methods=["POST"])
@@ -102,16 +107,15 @@ def convert():
         to_code = request.form.get("to")
         user_id = request.form.get("userid")
 
-
         if not user_id:
             return {"status": 400, "error": "User ID is required"}, 200
-        
+
         chat_completion = client.chat.completions.create(
             messages=[
                 {
                     "role": "user",
                     "content": f"""{code}
-                    covert the above {from_code} program to {to_code}
+                    covert the above {from_code} program to {to_code}, respond with just converted code.
                     """,
                 }
             ],
@@ -122,15 +126,23 @@ def convert():
         conn = connection_pool.getconn()
         with conn.cursor() as cur:
             cur.execute(
-            "INSERT INTO history (con_id, user_id) VALUES (%s, %s)",
-            (con_id, user_id),
+                "INSERT INTO history (con_id, user_id) VALUES (%s, %s)",
+                (con_id, user_id),
             )
         conn.commit()
         connection_pool.putconn(conn)
-        return chat_completion.choices[0].message.content, 200
+        content = chat_completion.choices[0].message.content
+        code_match = re.search(r"```(.*?)```", content, re.DOTALL)
+        code = code_match.group(1).strip()
+        lines = code.split('\n')
+        lines = lines[1:]
+        code = '\n'.join(lines)
+        return code, 200
 
     return {"status": 400, "error": "Invalid file extension"}, 400
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+    

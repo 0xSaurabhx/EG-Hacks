@@ -177,7 +177,7 @@ def get_chat_ids():
     conn = connection_pool.getconn()
     try:
         with conn.cursor() as cur:
-            cur.execute("SELECT con_id FROM history WHERE user_id = %s", (user_id,))
+            cur.execute("SELECT con_id,title FROM history WHERE user_id = %s", (user_id,))
             records = cur.fetchall()
         conn.commit()
     except Exception as e:

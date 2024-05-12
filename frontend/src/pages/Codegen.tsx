@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Header } from "@/components/Header"
 import { useState } from "react"
 import axios from 'axios'
+import { Spinner } from "@/components/Spinner";
 
 // @ts-ignore
 
@@ -47,6 +48,9 @@ export default function Codegen() {
     userid: userid, // Add userid to state
   });
   const [convertedCode, setConvertedCode] = useState('');
+  
+  
+  const [isConverting, setIsConverting] = useState(false);
   const handleFileChange = (event) => {
     setDropInputs(prevState => ({
       ...prevState,
@@ -55,6 +59,7 @@ export default function Codegen() {
   };
 
   const handleConvert = async () => {
+    setIsConverting(true);
     console.log('Convert button clicked');
     const { from, to, file, userid } = dropInputs;
     console.log('Inputs:', { from, to, file, userid });
@@ -73,7 +78,9 @@ export default function Codegen() {
           },
         });
         console.log('Response:', response);
-        if (response.status === 200) {
+        if (response.status === 200) { 
+          setIsConverting(false);
+
           setConvertedCode(response.data);
         } else {
           console.error('Conversion failed with status:', response.status);
@@ -126,6 +133,7 @@ export default function Codegen() {
 
             </div>
             <Button onClick={handleConvert} className="w-full">Convert</Button>
+            {isConverting && <Spinner />}
             {convertedCode && (
               <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
                 <h3 className="text-lg font-semibold">Converted Code</h3>
@@ -245,25 +253,5 @@ export default function Codegen() {
 }
 
 
-
-function CopyIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-    </svg>
-  )
-}
 
 

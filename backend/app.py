@@ -12,7 +12,7 @@ from io import BytesIO
 from psycopg2 import pool
 from flask_cors import CORS
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from botocore.client import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -132,6 +132,7 @@ def convert():
         from_code = request.form.get("from")
         to_code = request.form.get("to")
         user_id = request.form.get("userid")
+        con_title = f"from {from_code} to {to_code} - {file.filename}"
 
         if not user_id:
             return {"status": 400, "error": "User ID is required"}, 200
@@ -152,8 +153,8 @@ def convert():
         conn = connection_pool.getconn()
         with conn.cursor() as cur:
             cur.execute(
-                "INSERT INTO history (con_id, user_id) VALUES (%s, %s)",
-                (con_id, user_id),
+                "INSERT INTO history (con_id, user_id, title) VALUES (%s, %s, %s)",
+                (con_id, user_id, con_title),
             )
         conn.commit()
         connection_pool.putconn(conn)
@@ -170,6 +171,20 @@ def convert():
 
     return {"status": 400, "error": "Invalid file extension"}, 400
 
+@app.route("/chatid/get", methods=["GET"])
+def get_chat_ids():
+    user_id = request.args.get('userid')
+    conn = connection_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT con_id FROM history WHERE user_id = %s", (user_id,))
+            records = cur.fetchall()
+        conn.commit()
+    except Exception as e:
+        connection_pool.putconn(conn)
+        return {"status": 500, "error": str(e)}, 200
+    connection_pool.putconn(conn)
+    return jsonify(records), 200
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

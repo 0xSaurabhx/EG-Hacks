@@ -142,7 +142,7 @@ def convert():
                 {
                     "role": "user",
                     "content": f"""{code}
-                    covert the above {from_code} program to {to_code}, respond with just converted code.
+                    covert the above {from_code} program to {to_code}
                     """,
                 }
             ],

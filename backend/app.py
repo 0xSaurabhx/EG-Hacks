@@ -1,37 +1,63 @@
-import os, re
+import os
+import re
+import json
 import uuid
-from werkzeug.security import generate_password_hash, check_password_hash
+import boto3
 import requests
 import psycopg2
-import json
-from psycopg2 import pool
-from flask import Flask, request
-from flask_cors import CORS
+
+
 from groq import Groq
+from io import BytesIO
+from psycopg2 import pool
+from flask_cors import CORS
 from dotenv import load_dotenv
-import boto3
+from flask import Flask, request
 from botocore.client import Config
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
+#CONFIG
+BUCKET = "demo"
+ALLOWED_EXTENSIONS = {"pas", "dfm", "cob", "cbl", "vb", "vbs"}
 DATABASE_URL = "postgres://default:xr4Mlmbi8RzI@ep-autumn-sea-a1loat7s.ap-southeast-1.aws.neon.tech:5432/verceldb?sslmode=require"
+ACCOUNTID = os.environ["ACCOUNTID"]
+CLIENTACCESSKEY = os.environ["CLIENTACCESSKEY"]
+CLIENTSECRET = os.environ["CLIENTSECRET"]
+CONNECTIONURL = f"https://{ACCOUNTID}.r2.cloudflarestorage.com"
+
+
 conn = psycopg2.connect(DATABASE_URL, sslmode="require")
 connection_pool = pool.SimpleConnectionPool(
     1, 10, DATABASE_URL, sslmode="require")
-
 client = Groq(
     api_key=os.environ["MISTRAL_API_KEY"],
 )
 
 
-ALLOWED_EXTENSIONS = {"pas", "dfm", "cob", "cbl", "vb", "vbs"}
-
-
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def upload_to_r2(filename, filecontent):
+    s3 = boto3.client(
+    service_name ='s3',
+    endpoint_url=CONNECTIONURL,
+    aws_access_key_id=CLIENTACCESSKEY,
+    aws_secret_access_key=CLIENTSECRET,
+    region_name='us-east-1'
+)
+    UploadObject = filecontent
+    UploadObjectBytes = UploadObject.encode('utf-8')
+    UploadObjectFile = BytesIO(UploadObjectBytes)
+    try:
+        s3.upload_fileobj(UploadObjectFile, Bucket="demo", Key=f"{filename}.json")
+        return True
+    except:
+        return False
 
 
 @app.route("/", methods=["GET"])
@@ -132,17 +158,18 @@ def convert():
         conn.commit()
         connection_pool.putconn(conn)
         content = chat_completion.choices[0].message.content
-        code_match = re.search(r"```(.*?)```", content, re.DOTALL)
-        code = code_match.group(1).strip()
-        lines = code.split('\n')
-        lines = lines[1:]
-        code = '\n'.join(lines)
-        return code, 200
+        if upload_to_r2(filename=con_id,filecontent=code):
+            code_match = re.search(r"```(.*?)```", content, re.DOTALL)
+            code = code_match.group(1).strip()
+            lines = code.split('\n')
+            lines = lines[1:]
+            code = '\n'.join(lines)
+            return code, 200
+        else:
+            return {"status": 400, "error": "Invalid file extension"}, 400
 
     return {"status": 400, "error": "Invalid file extension"}, 400
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
-    
-    
+    app.run(debug=False)

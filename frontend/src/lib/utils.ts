@@ -5,4 +5,4 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const API_URL = "https://eg-hacks-api.vercel.app";
+export const API_URL = "http://127.0.0.1:5000";

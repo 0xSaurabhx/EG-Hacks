@@ -81,7 +81,7 @@ def signup():
     conn = connection_pool.getconn()
     with conn.cursor() as cur:
         cur.execute(
-            "INSERT INTO users (email, password) VALUES (%s, %s)",
+            "INSERT INTO users (email, password) VALUES (%s, %s) RETURNING id",
             (email, hashed_password),
         )
         user_id = cur.fetchone()[0]

@@ -151,7 +151,7 @@ export default function Codegen() {
               Copy
             </button>
             <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`${dropInputs.fileName}.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
-  Download
+            Download
 </a>
 
           </div>

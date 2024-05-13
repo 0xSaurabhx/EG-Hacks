@@ -30,7 +30,7 @@ const ConversionTitleCards = () => {
             <h2 className="text-2xl mt-20 font-bold tracking-tight sm:text-3xl">Conversion History</h2>
             <div className="flex w-full max-w-md flex-col items-start justify-center gap-4 overflow-y-auto">
                 {!conversionTitles.length ? (
-                    <div className="text-center pb-8 pt-8">
+                    <div className=" ml-24 pb-8 pt-5">
                         No Conversion History
                     </div>
                 ) : (

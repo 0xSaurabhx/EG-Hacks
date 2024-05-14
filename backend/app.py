@@ -210,7 +210,7 @@ Please generate a detailed html document for this code that includes the followi
 4. Examples: Provide some example usages of the code along with expected outcomes.
 5. Error Handling: Describe any error handling implemented in the code or any common issues a user might encounter and how to resolve them.
 
-Make sure the html file is well-structured and easy to follow, using appropriate html syntax for headers, code blocks, and lists. Use Arial, sans-serif fonat family throught the html document.
+Make sure the html file is well-structured and easy to follow, using appropriate html syntax for headers, code blocks, and linkss. Use Arial, sans-serif fonat family throught the html document.
 """
 
     chat_completion = client.chat.completions.create(
@@ -220,7 +220,7 @@ Make sure the html file is well-structured and easy to follow, using appropriate
                     "content": prompt,
                 }
             ],
-            model="llama3-70b-8192",
+            model="mixtral-8x7b-32768",
         )
     content = chat_completion.choices[0].message.content
     return content

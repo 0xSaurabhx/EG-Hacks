@@ -8,20 +8,16 @@ import { useState, ChangeEvent } from "react";
 import axios from 'axios';
 import { Spinner } from "@/components/Spinner";
 import ConversionTitleCards from "@/components/ConversionTitleCards";
-
+import { Link } from "react-router-dom";
 
 
 export default function Codegen() {
-  const [convertedCode, setConvertedCode] = useState<string>('');
-  const [isConverting, setIsConverting] = useState<boolean>(false);
-  const isAuthenticated = localStorage.getItem('user') !== null;
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const userid = user?.id;
   
-  if (!isAuthenticated) {
-    return <Navigate to="/signin" replace />;
-  }
- 
+  const [convertedCode, setConvertedCode] = useState<string>('');
+  const [isConverting, setIsConverting] = useState<boolean>(false);
+  const isAuthenticated = localStorage.getItem('user') !== null;
   const [dropInputs, setDropInputs] = useState<{
     from: string;
     to: string;
@@ -34,6 +30,12 @@ export default function Codegen() {
     file: null,
     userid: userid, 
   });
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
+ 
+ 
 
   const copyCode = async () => {
     try {
@@ -160,7 +162,29 @@ export default function Codegen() {
                   <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`${dropInputs.fileName}.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
                     Download
                   </a>
+                  
+                           
+
                 </div>
+                <div className="flex mt-5 justify-around">
+                <Link to="/docs">   
+            <button  className="rounded-md  text-white px-3 py-1 mr-2 bg-gray-700">
+             Docs
+         </button>
+          </Link>
+
+          <Link to="/debug">   
+            <button  className="rounded-md  text-white px-3 py-1 mr-2 bg-gray-700">
+             Debug
+         </button>
+          </Link>
+
+          <Link to="/optimize">   
+            <button  className="rounded-md  text-white px-6 py-1 mr-2 bg-gray-700 justify-around">
+             Optimize 
+         </button>
+          </Link>
+                  </div>
               </div>
             )}
           </div>

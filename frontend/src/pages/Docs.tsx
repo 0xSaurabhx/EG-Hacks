@@ -41,7 +41,7 @@ const Docs = () => {
         };
 
         fetchData();
-    }, []);
+    }, [id, sourceLang, target]);
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center gap-6 bg-gray-50 p-8 w-full h-screen">

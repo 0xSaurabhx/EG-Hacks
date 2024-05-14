@@ -125,7 +125,7 @@ import Footer from "../components/Footer"
   </>
 )
 }
-
+//@ts-ignore
 function CheckIcon(props) {
 return (
   <svg
@@ -145,7 +145,7 @@ return (
 )
 }
 
-
+//@ts-ignore
 function CodeIcon(props) {
 return (
   <svg
@@ -166,7 +166,7 @@ return (
 )
 }
 
-
+//@ts-ignore
 function CommandIcon(props) { 
     return (
     <svg
@@ -184,7 +184,7 @@ function CommandIcon(props) {
     </svg>
     )
 }
-
+//@ts-ignore
 function FlagIcon(props) {
 return (
   <svg
@@ -205,7 +205,7 @@ return (
 )
 }
 
-
+//@ts-ignore
 function MenuIcon(props) {
 return (
   <svg
@@ -227,7 +227,7 @@ return (
 )
 }
 
-
+//@ts-ignore
 function RedoIcon(props) {
 return (
   <svg
@@ -248,7 +248,7 @@ return (
 )
 }
 
-
+//@ts-ignore
 function XIcon(props) {
 return (
   <svg

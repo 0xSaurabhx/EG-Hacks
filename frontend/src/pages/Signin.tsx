@@ -26,7 +26,8 @@ const Signin = () => {
       <ToastContainer />
       <div className="grid grid-cols-1: lg:grid-cols-2">
         <div className="flex justify-center items-center my-20">
-          <Form type="signin" onSubmit={handleSignIn} />
+       
+          <Form type="signin" onSubmit={handleSignIn} /> // Add the missing onSubmit prop
         </div>
         <div className="hidden lg:block">
           <Quote />

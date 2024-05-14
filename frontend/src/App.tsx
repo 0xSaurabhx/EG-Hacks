@@ -1,7 +1,7 @@
 import "./styles/App.css";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Signup';
-import Signin from './pages/Signin';
+import Signin from "./pages/Signin";
 import Contact from "./pages/Contact";
 import LandingPage from "./pages/LandingPage";
 import Chatbot from "./pages/Chatbot";
@@ -27,10 +27,10 @@ export default function App() {
        
           <Route path="/debug" element={<Debug/>} />
           <Route path="/optimize" element={<Optimize />} />
-          <Route path="/docs" element={<Docs/>} />
+          <Route path="/docs" element={<Docs />} />
         </Routes>
       </BrowserRouter>
-      <Notification /> {/* Render the Notification component */}
+      <Notification /> 
     </>
   );
 }

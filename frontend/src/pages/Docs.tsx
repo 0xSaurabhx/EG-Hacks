@@ -1,5 +1,7 @@
 import { Back } from "@/components/Back";
 import { useState, useEffect } from 'react';
+import {  useParams, useLocation } from "react-router-dom";
+
 
 //@ts-ignore
 const sanitizeHTML = (htmlString) => {
@@ -7,18 +9,27 @@ const sanitizeHTML = (htmlString) => {
 };
 
 const Docs = () => {
-    const [htmlContent, setHtmlContent] = useState('');
+    const { id } = useParams();
+    const location = useLocation();
+    const { title } = location.state || { title: '' }; 
+    const [OldHtmlContent, setOldHtmlContent] = useState('');
+    const [NewHtmlContent, setNewHtmlContent] = useState('');
+
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://eg-hacks-api.vercel.app/docs/get?chatid=f715250a-371d-42d1-adf3-29af8e297e52-new&title=from%20cobol%20to%20python%20-%20tes.cob');
-                if (!response.ok) {
+                const Nresponse = await fetch(`https://eg-hacks-api.vercel.app/docs/get?chatid=${id}-new&title=${title}`);
+                const Oresponse = await fetch(`https://eg-hacks-api.vercel.app/docs/get?chatid=${id}-old&title=${title}`);
+
+                if (!Oresponse.ok && !Nresponse.ok) {
                     throw new Error('Failed to fetch HTML content');
                 }
-                const html = await response.text();
-                console.log(html); // Log the fetched HTML content
-                setHtmlContent(html);
+                const Nhtml = await Nresponse.text();
+                const Ohtml = await Oresponse.text();
+                setOldHtmlContent(Ohtml);
+                setNewHtmlContent(Nhtml)
             } catch (error) {
                 console.error(error);
             }
@@ -30,13 +41,27 @@ const Docs = () => {
     return (
         <>
             <Back />
-            <div className="flex justify-center overflow-hidden">
-                <div className="px-10 w-full pt-200 max-w-screen-xl pt-12 ">
-                    {htmlContent && (
+            <div className="justify-center overflow-hidden" style={{ display: 'flex' }}>
+                <div className="px-10 w-full pt-200 max-w-screen-xl pt-12 " style={{ flex: 1 }}>
+                    
+                    {NewHtmlContent && (
                         <iframe
                             title="Embedded HTML Content"
                              className="overflow-hidden"
-                            srcDoc={sanitizeHTML(htmlContent).__html}
+                            srcDoc={sanitizeHTML(NewHtmlContent).__html}
+                            width="100%"
+                            height="1000px"
+                            
+                        ></iframe>
+                    )}
+                </div>
+                <div className="px-10 w-full pt-200 max-w-screen-xl pt-12 " style={{ flex: 1 }}>
+                    
+                    {OldHtmlContent && (
+                        <iframe
+                            title="Embedded HTML Content"
+                             className="overflow-hidden"
+                            srcDoc={sanitizeHTML(OldHtmlContent).__html}
                             width="100%"
                             height="1000px"
                             

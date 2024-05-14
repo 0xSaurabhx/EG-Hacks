@@ -27,7 +27,7 @@ export default function App() {
        
           <Route path="/debug" element={<Debug/>} />
           <Route path="/optimize" element={<Optimize />} />
-          <Route path="/docs" element={<Docs />} />
+          <Route path="/docs/:id" element={<Docs />} />
         </Routes>
       </BrowserRouter>
       <Notification /> 

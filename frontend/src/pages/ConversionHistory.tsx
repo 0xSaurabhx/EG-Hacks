@@ -7,7 +7,6 @@ const ConversionHistory = () => {
     const { id } = useParams();
     const location = useLocation();
     const { title } = location.state || { title: '' }; 
-    console.log(title)// Receiving the title from state
     const [data, setData] = useState('');
 
     const copyCode = async () => {

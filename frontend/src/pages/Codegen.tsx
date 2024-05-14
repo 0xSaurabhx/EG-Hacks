@@ -16,6 +16,9 @@ export default function Codegen() {
   const userid = user?.id;
   
   const [convertedCode, setConvertedCode] = useState<string>('');
+  const [conId, setConId] = useState<string>('');
+  const [conTitle, setConTitle] = useState<string>('');
+
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const isAuthenticated = localStorage.getItem('user') !== null;
   const [dropInputs, setDropInputs] = useState<{
@@ -93,7 +96,9 @@ export default function Codegen() {
         console.log('Response:', response);
         if (response.status === 200) { 
           setIsConverting(false);
-          setConvertedCode(response.data);
+          setConvertedCode(response.data.code);
+          setConId(response.data.id);
+          setConTitle(response.data.title);
         } else {
           console.error('Conversion failed with status:', response.status);
           setIsConverting(false);
@@ -167,7 +172,7 @@ export default function Codegen() {
 
                 </div>
                 <div className="flex mt-5 justify-around">
-                <Link to="/docs">   
+                <Link to={`/docs/${conId}`} state={{ title: conTitle }}>   
             <button  className="rounded-md  text-white px-3 py-1 mr-2 bg-gray-700">
              Docs
          </button>

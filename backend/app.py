@@ -5,6 +5,8 @@ import uuid
 import boto3
 import requests
 import psycopg2
+import textwrap
+
 
 
 from groq import Groq
@@ -189,10 +191,39 @@ def get_chat_ids():
 @app.route("/docs/get", methods=["GET"])
 def get_docs():
     chatid = request.args.get('chatid')
+    title = request.args.get('title')
     chat_url = f"https://pub-ed6294b09052471093b13f036a7fe802.r2.dev/{chatid}.json"
     response = requests.get(chat_url)
-    return response.text
-    
+    code = response.text
+    prompt = prompt = f"""
+You are given a code snippet below:
+
+{code}
+
+The above code is titled "{title}".
+
+Please generate a detailed html document for this code that includes the following sections:
+
+1. **Project Overview**: Provide a brief overview of what this code does.
+2. **Setup Instructions**: Include instructions on how to set up the project. This should cover installation steps, dependencies, and configuration required to run the code.
+3. **Usage Instructions**: Detail how to use the code. Include examples of commands or functions, and describe what the expected outputs are.
+4. **Examples**: Provide some example usages of the code along with expected outcomes.
+5. **Error Handling**: Describe any error handling implemented in the code or any common issues a user might encounter and how to resolve them.
+
+Make sure the html file is well-structured and easy to follow, using appropriate html syntax for headers, code blocks, and lists.
+"""
+
+    chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="mixtral-8x7b-32768",
+        )
+    content = chat_completion.choices[0].message.content
+    return content
 
 if __name__ == "__main__":
     app.run(debug=True)

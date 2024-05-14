@@ -226,4 +226,4 @@ Make sure the html file is well-structured and easy to follow, using appropriate
     return content
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

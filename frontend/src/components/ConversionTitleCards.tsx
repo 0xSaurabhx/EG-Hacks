@@ -47,7 +47,7 @@ const ConversionTitleCards = () => {
             <div className="flex w-full max-w-md ml-28 flex-col items-start justify-center gap-4">
                 {conversionTitles.length ? conversionTitles.slice().reverse().map((title, index) => (
                     <Link 
-                        to={`/convert/${title[0]}`} 
+                        to={`/convert/${title[0]}-new`} 
                         key={index} 
                         state={{ title: title[1] }} // Passing title[1] as state
                         className="cursor-pointer"

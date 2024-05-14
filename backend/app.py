@@ -200,17 +200,17 @@ You are given a code snippet below:
 
 {code}
 
-The above code is titled "{title}".
+The above code is in "{title}".
 
 Please generate a detailed html document for this code that includes the following sections and format, Use Arial & sans-serif font family throught the html document:
-[PROJECT TITLE IN UPPERCASE (PROJECT LANGUAGE)]
+[Documentation for {title} ({code})]
 1. Project Overview: Provide a step by step explaination of what this code does.
 2. Setup Instructions: Include instructions on how to set up the project. This should cover installation steps, dependencies, and configuration required to run the code.
 3. Usage Instructions: Detail how to use the code. Include examples of commands or functions, and describe what the expected outputs are.
 4. Examples: Provide some example usages of the code along with expected outcomes.
 5. Error Handling: Describe any error handling implemented in the code or any common issues a user might encounter and how to resolve them.
 
-Make sure the html file is well-structured and easy to follow, using appropriate html syntax for headers, code blocks, and lists. Use Arial, sans-serif fonat family throught the html document.
+Make sure the html file is well-structured and easy to follow, using appropriate html syntax for headers, code blocks, and linkss. Use Arial, sans-serif fonat family throught the html document.
 """
 
     chat_completion = client.chat.completions.create(
@@ -220,7 +220,7 @@ Make sure the html file is well-structured and easy to follow, using appropriate
                     "content": prompt,
                 }
             ],
-            model="llama3-70b-8192",
+            model="mixtral-8x7b-32768",
         )
     content = chat_completion.choices[0].message.content
     return content

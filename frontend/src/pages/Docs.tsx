@@ -17,13 +17,15 @@ const Docs = () => {
     const [OldHtmlContent, setOldHtmlContent] = useState('');
     const [NewHtmlContent, setNewHtmlContent] = useState('');
     const [loading, setLoading] = useState(true);
+    const [sourceLang, targetLang] = title.split(' to ');
+    const target = targetLang.split(' - ')[0]
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const Nresponse = await fetch(`https://eg-hacks-api.vercel.app/docs/get?chatid=${id}-new&title=${title}`);
-                const Oresponse = await fetch(`https://eg-hacks-api.vercel.app/docs/get?chatid=${id}-old&title=${title}`);
+                const Nresponse = await fetch(`https://eg-hacks-api.vercel.app/docs/get?chatid=${id}-new&title=${target}`);
+                const Oresponse = await fetch(`https://eg-hacks-api.vercel.app/docs/get?chatid=${id}-old&title=${sourceLang}`);
 
                 if (!Oresponse.ok && !Nresponse.ok) {
                     throw new Error('Failed to fetch HTML content');

@@ -1,20 +1,24 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { Back } from "@/components/Back";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 const ConversionHistory = () => {
     const { id } = useParams();
+    const location = useLocation();
+    const { title } = location.state || { title: '' }; 
+    console.log(title)// Receiving the title from state
     const [data, setData] = useState('');
-    
+
     const copyCode = async () => {
         try {
-          await navigator.clipboard.writeText(data);
-          console.log('Code copied to clipboard');
+            await navigator.clipboard.writeText(data);
+            console.log('Code copied to clipboard');
         } catch (err) {
-          console.error('Failed to copy code: ', err);
+            console.error('Failed to copy code: ', err);
         }
-      };
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`https://pub-ed6294b09052471093b13f036a7fe802.r2.dev/${id}.json`);
@@ -29,9 +33,9 @@ const ConversionHistory = () => {
             <Back />
             <div className="flex justify-center">
                 <div className="px-10 w-full pt-200 max-w-screen-xl pt-12">
-                    <div >
+                    <div>
                         <div className="text-5xl font-extrabold">
-                            Conversion History
+                            {title ? title : 'Conversion History'} {/* Displaying the title */}
                         </div>
                         <div className="pt-4">
                             <div className="bg-gray-900 rounded-md p-2">
@@ -44,14 +48,12 @@ const ConversionHistory = () => {
                             <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
                                 Copy
                             </button>
-                            
-
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }
 
-export default ConversionHistory
+export default ConversionHistory;

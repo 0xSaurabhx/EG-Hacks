@@ -1,12 +1,20 @@
-import {useParams} from "react-router-dom";
-import {Back}  from "@/components/Back";
+import { useParams } from "react-router-dom";
+import { Back } from "@/components/Back";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 const ConversionHistory = () => {
     const { id } = useParams();
     const [data, setData] = useState('');
-
+    
+    const copyCode = async () => {
+        try {
+          await navigator.clipboard.writeText(data);
+          console.log('Code copied to clipboard');
+        } catch (err) {
+          console.error('Failed to copy code: ', err);
+        }
+      };
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(`https://pub-ed6294b09052471093b13f036a7fe802.r2.dev/${id}.json`);
@@ -18,7 +26,7 @@ const ConversionHistory = () => {
 
     return (
         <>
-            <Back/>
+            <Back />
             <div className="flex justify-center">
                 <div className="px-10 w-full pt-200 max-w-screen-xl pt-12">
                     <div >
@@ -26,7 +34,18 @@ const ConversionHistory = () => {
                             Conversion History
                         </div>
                         <div className="pt-4">
-                            <pre>{data}</pre>
+                            <div className="bg-gray-900 rounded-md p-2">
+                                <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-100">
+                                    {data}
+                                </pre>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-center mt-2">
+                            <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
+                                Copy
+                            </button>
+                            
+
                         </div>
                     </div>
                 </div>

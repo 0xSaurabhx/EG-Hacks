@@ -186,5 +186,13 @@ def get_chat_ids():
     connection_pool.putconn(conn)
     return jsonify(records), 200
 
+@app.route("/docs/get", methods=["GET"])
+def get_docs():
+    chatid = request.args.get('chatid')
+    chat_url = f"https://pub-ed6294b09052471093b13f036a7fe802.r2.dev/{chatid}.json"
+    response = requests.get(chat_url)
+    return response.text
+    
+
 if __name__ == "__main__":
     app.run(debug=True)

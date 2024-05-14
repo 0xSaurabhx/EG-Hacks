@@ -1,35 +1,39 @@
-
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Navigate } from 'react-router-dom';
-import { API_URL } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Header } from "@/components/Header"
-import { useState } from "react"
-import axios from 'axios'
+import { API_URL } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Header } from "@/components/Header";
+import { useState, ChangeEvent } from "react";
+import axios from 'axios';
 import { Spinner } from "@/components/Spinner";
 import ConversionTitleCards from "@/components/ConversionTitleCards";
 
-//@ts-ignore
+
 
 export default function Codegen() {
-
-  const [convertedCode, setConvertedCode] = useState('');
-  
-  
-  const [isConverting, setIsConverting] = useState(false);
+  const [convertedCode, setConvertedCode] = useState<string>('');
+  const [isConverting, setIsConverting] = useState<boolean>(false);
   const isAuthenticated = localStorage.getItem('user') !== null;
   const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const userid = user.id;
+  const userid = user?.id;
+  
   if (!isAuthenticated) {
     return <Navigate to="/signin" replace />;
   }
-  const [dropInputs, setDropInputs] = useState({
+  const [dropInputs, setDropInputs] = useState<{
+    from: string;
+    to: string;
+    file: File | null;
+    userid: string;
+    fileName?: string;
+  }>({
     from: "",
     to: "",
     file: null,
-    userid: userid, // Add userid to state
+    userid: userid, 
   });
+
   const copyCode = async () => {
     try {
       await navigator.clipboard.writeText(convertedCode);
@@ -52,16 +56,17 @@ export default function Codegen() {
     }
   }
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const fileNameWithoutExtension = file.name.split('.').slice(0, -1).join('.');
-    setDropInputs(prevState => ({
-      ...prevState,
-      file: file,
-      fileName: fileNameWithoutExtension,
-    }));
-};
-
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const fileNameWithoutExtension = file.name.split('.').slice(0, -1).join('.');
+      setDropInputs(prevState => ({
+        ...prevState,
+        file: file,
+        fileName: fileNameWithoutExtension,
+      }));
+    }
+  };
 
   const handleConvert = async () => {
     setIsConverting(true);
@@ -73,7 +78,7 @@ export default function Codegen() {
       formData.append('file', file);
       formData.append('from', from);
       formData.append('to', to);
-      formData.append('userid', userid); // Append userid to formData
+      formData.append('userid', userid); 
       console.log('FormData:', formData);
       try {
         console.log('Making API request...');
@@ -85,88 +90,82 @@ export default function Codegen() {
         console.log('Response:', response);
         if (response.status === 200) { 
           setIsConverting(false);
-
           setConvertedCode(response.data);
         } else {
           console.error('Conversion failed with status:', response.status);
+          setIsConverting(false);
         }
       } catch (error) {
         console.error('API request failed with error:', error);
+        setIsConverting(false);
       }
     } else {
       console.error('Missing input(s):', { from, to, file, userid });
+      setIsConverting(false);
     }
   };
-
 
   return (
     <>
       <Header />
       <div className="flex min-h-screen w-full">
-  <div className="flex flex-col items-center gap-6 bg-gray-100 p-8 md:w-3/4 overflow-y-auto">
-    <h1 className="text-3xl font-bold tracking-tight mt-20 sm:text-4xl">Legacy to Modern Code Converter</h1>
-    <div className="flex w-full max-w-lg flex-col items-center justify-center gap-4"> {/* Increase max-width here */}
-      <div className="grid w-full gap-2">
-        <Label htmlFor="file-upload" className="w-full">Upload Legacy Code</Label> {/* Add w-full class here */}
-        <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" onChange={handleFileChange} className="w-full"/> {/* Add w-full class here */}
-      </div>
-      <div className="grid w-full gap-2">
-        <label htmlFor="from-language" className="py-1 pr-2 text-sm font-semibold w-full">Legacy code</label> {/* Add w-full class here */}
-        <select
-          id="from-language"
-          onChange={(e) => setDropInputs(prevState => ({ ...prevState, from: e.target.value }))}
-          className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <option value="">Select target language</option>
-          <option value="cobol">Cobol</option>
-          <option value="vb">Virtual basic</option>
-          <option value="delphi">Delphi</option>
-        </select>
-      </div>
-      <div className="grid w-full gap-2">
-        <label htmlFor="to-language" className="py-1.5 pr-2 text-sm font-semibold w-full">Convert to</label> {/* Add w-full class here */}
-        <select
-          id="to-language"
-          onChange={(e) => setDropInputs(prevState => ({ ...prevState, to: e.target.value }))}
-          className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <option value="">Select target language</option>
-          <option value="java">Java</option>
-          <option value="python">Python</option>
-          <option value="csharp">C#</option>
-        </select>
-      </div>
-      <Button onClick={handleConvert} className="w-full">Convert</Button> {/* Already full width */}
-      {isConverting && <Spinner />}
-      {convertedCode && (
-        <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
-          <h3 className="text-lg font-semibold">Converted Code</h3>
-          <div className="bg-gray-900 rounded-md p-2">
-            <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-100">
-              {convertedCode}
-            </pre>
+        <div className="flex flex-col items-center gap-6 bg-gray-100 p-8 md:w-3/4 overflow-y-auto">
+          <h1 className="text-3xl font-bold tracking-tight mt-20 sm:text-4xl">Legacy to Modern Code Converter</h1>
+          <div className="flex w-full max-w-lg flex-col items-center justify-center gap-4">
+            <div className="grid w-full gap-2">
+              <Label htmlFor="file-upload" className="w-full">Upload Legacy Code</Label>
+              <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" onChange={handleFileChange} className="w-full"/>
+            </div>
+            <div className="grid w-full gap-2">
+              <label htmlFor="from-language" className="py-1 pr-2 text-sm font-semibold w-full">Legacy code</label>
+              <select
+                id="from-language"
+                onChange={(e) => setDropInputs(prevState => ({ ...prevState, from: e.target.value }))}
+                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <option value="">Select legacy language</option>
+                <option value="cobol">Cobol</option>
+                <option value="vb">Visual Basic</option>
+                <option value="delphi">Delphi</option>
+              </select>
+            </div>
+            <div className="grid w-full gap-2">
+              <label htmlFor="to-language" className="py-1.5 pr-2 text-sm font-semibold w-full">Convert to</label>
+              <select
+                id="to-language"
+                onChange={(e) => setDropInputs(prevState => ({ ...prevState, to: e.target.value }))}
+                className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <option value="">Select target language</option>
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="csharp">C#</option>
+              </select>
+            </div>
+            <Button onClick={handleConvert} className="w-full">Convert</Button>
+            {isConverting && <Spinner />}
+            {convertedCode && (
+              <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
+                <h3 className="text-lg font-semibold">Converted Code</h3>
+                <div className="bg-gray-900 rounded-md p-2">
+                  <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-100">
+                    {convertedCode}
+                  </pre>
+                </div>
+                <div className="flex items-center justify-center mt-2">
+                  <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
+                    Copy
+                  </button>
+                  <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`${dropInputs.fileName}.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
+                    Download
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="flex items-center justify-center mt-2">
-            <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
-              Copy
-            </button>
-            <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`${dropInputs.fileName}.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
-            Download
-</a>
-
-          </div>
-          
         </div>
-      )}
-    </div>
-  </div>
-        <ConversionTitleCards/>
+        <ConversionTitleCards />
       </div>
     </>
-
-  )
+  );
 }
-
-
-
-

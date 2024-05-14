@@ -1,4 +1,3 @@
-
 import { Navigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,7 +23,7 @@ const Signin = () => {
   return (
     <div>
       <ToastContainer />
-      <div className="grid grid-cols-1: lg:grid-cols-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="flex justify-center items-center my-20">
           <Form type="signin" onSubmit={handleSignIn} />
         </div>

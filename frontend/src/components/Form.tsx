@@ -5,15 +5,10 @@ import { FaEye as Eye, FaEyeSlash as EyeSlash } from 'react-icons/fa';
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {
-  InputOTP,
-  InputOTPGroup,
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { Label } from "@/components/ui/label";
 
-  InputOTPSlot,
-} from "@/components/ui/input-otp"
-import { Label } from "@/components/ui/label"
-
-const Form = ({ type }: { type: "signup" | "signin" }) => {
+const Form = ({ type, onSubmit }: { type: "signup" | "signin"; onSubmit: () => void }) => {
   const navigate = useNavigate();
 
   const [postInputs, setPostInputs] = useState({
@@ -32,9 +27,10 @@ const Form = ({ type }: { type: "signup" | "signin" }) => {
       const response = await axios.post(`${API_URL}/${type === "signup" ? "signup" : "signin"}`, postInputs);
       localStorage.setItem('user', JSON.stringify(response.data));
       navigate("/codegen");
+      onSubmit(); // Call the onSubmit prop
     } catch (error) {
       console.error('Error:', error);
-      alert("Error occurred, please try again.");
+      toast.error("Error occurred, please try again.");
     }
   };
 
@@ -48,20 +44,20 @@ const Form = ({ type }: { type: "signup" | "signin" }) => {
         <div className="space-y-2 mb-5">
           <LabelledInput label="Email" placeholder="Enter your email" onChange={(e) => setPostInputs({ ...postInputs, email: e.target.value })} />
           <CheckIcon className="hidden h-4 w-4 cursor-pointer" />
-                <span className="sr-only">Verify</span>
-                <div className="hidden space-y-2">
-              <Label htmlFor="otp">OTP</Label>
-              <InputOTP maxLength={6}>
-                <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
-                </InputOTPGroup>
-              </InputOTP>
-            </div>
+          <span className="sr-only">Verify</span>
+          <div className="hidden space-y-2">
+            <Label htmlFor="otp">OTP</Label>
+            <InputOTP maxLength={6}>
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
+          </div>
         </div>
         <div className="space-y-2">
           <LabelledInput label="Password" placeholder={type === "signup" ? "Create a password" : "Enter your password"} onChange={(e) => setPostInputs({ ...postInputs, password: e.target.value })} type="password" />

@@ -162,12 +162,12 @@ def convert():
         connection_pool.putconn(conn)
         content = chat_completion.choices[0].message.content
         code_match = re.search(r"```(.*?)```", content, re.DOTALL)
-        code = code_match.group(1).strip()
-        lines = code.split('\n')
+        codee = code_match.group(1).strip()
+        lines = codee.split('\n')
         lines = lines[1:]
-        code = '\n'.join(lines)
-        if upload_to_r2(filename=con_id,filecontent=code):
-            return code, 200
+        codee = '\n'.join(lines)
+        if upload_to_r2(filename=f"{con_id}-old",filecontent=code) and upload_to_r2(filename=f"{con_id}-new",filecontent=codee):
+            return codee, 200
         else:
             return {"status": 400, "error": "Invalid file extension"}, 400
 
@@ -226,4 +226,4 @@ Make sure the html file is well-structured and easy to follow, using appropriate
     return content
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

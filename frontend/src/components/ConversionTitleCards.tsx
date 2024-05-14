@@ -44,7 +44,7 @@ const ConversionTitleCards = () => {
     return (
         <div className="flex flex-col items-center gap-6 bg-gray-50 p-8 md:w-1/4">
             <h2 className="text-2xl mt-20 font-bold tracking-tight sm:text-3xl">Conversion History</h2>
-            <div className="flex w-full max-w-md ml-28 flex-col items-start justify-center gap-4">
+            <div className="flex w-full max-w-  flex-col items-start justify-center gap-4">
                 {conversionTitles.length ? conversionTitles.slice().reverse().map((title, index) => (
                     <Link 
                         to={`/convert/${title[0]}-new`} 

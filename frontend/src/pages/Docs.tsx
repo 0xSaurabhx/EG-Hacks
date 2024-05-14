@@ -1,7 +1,7 @@
 import { Back } from "@/components/Back";
 import { useState, useEffect } from 'react';
 import {  useParams, useLocation } from "react-router-dom";
-
+import { BlogSkeleton } from "@/components/BodySkeleton";
 
 //@ts-ignore
 const sanitizeHTML = (htmlString) => {
@@ -11,10 +11,12 @@ const sanitizeHTML = (htmlString) => {
 const Docs = () => {
     const { id } = useParams();
     const location = useLocation();
+
+    
     const { title } = location.state || { title: '' }; 
     const [OldHtmlContent, setOldHtmlContent] = useState('');
     const [NewHtmlContent, setNewHtmlContent] = useState('');
-
+    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -29,7 +31,8 @@ const Docs = () => {
                 const Nhtml = await Nresponse.text();
                 const Ohtml = await Oresponse.text();
                 setOldHtmlContent(Ohtml);
-                setNewHtmlContent(Nhtml)
+                setNewHtmlContent(Nhtml);
+                setLoading(false);
             } catch (error) {
                 console.error(error);
             }
@@ -37,6 +40,22 @@ const Docs = () => {
 
         fetchData();
     }, []);
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center gap-6 bg-gray-50 p-8 w-full h-screen">
+                <div className="flex w-full flex-col items-center justify-center gap-4">
+                    <div>
+                        <BlogSkeleton />
+                        <BlogSkeleton />
+                        <BlogSkeleton />
+                        <BlogSkeleton />
+                        <BlogSkeleton />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
 
     return (
         <>

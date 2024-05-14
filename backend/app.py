@@ -159,12 +159,12 @@ def convert():
         conn.commit()
         connection_pool.putconn(conn)
         content = chat_completion.choices[0].message.content
+        code_match = re.search(r"```(.*?)```", content, re.DOTALL)
+        code = code_match.group(1).strip()
+        lines = code.split('\n')
+        lines = lines[1:]
+        code = '\n'.join(lines)
         if upload_to_r2(filename=con_id,filecontent=code):
-            code_match = re.search(r"```(.*?)```", content, re.DOTALL)
-            code = code_match.group(1).strip()
-            lines = code.split('\n')
-            lines = lines[1:]
-            code = '\n'.join(lines)
             return code, 200
         else:
             return {"status": 400, "error": "Invalid file extension"}, 400

@@ -47,9 +47,9 @@ const Form = ({ type }: { type: "signup" | "signin" }) => {
       <div className="p-6 space-y-4">
         <div className="space-y-2 mb-5">
           <LabelledInput label="Email" placeholder="Enter your email" onChange={(e) => setPostInputs({ ...postInputs, email: e.target.value })} />
-          <CheckIcon className="h-4 w-4 cursor-pointer" />
+          <CheckIcon className="hidden h-4 w-4 cursor-pointer" />
                 <span className="sr-only">Verify</span>
-                <div className="space-y-2">
+                <div className="hidden space-y-2">
               <Label htmlFor="otp">OTP</Label>
               <InputOTP maxLength={6}>
                 <InputOTPGroup>

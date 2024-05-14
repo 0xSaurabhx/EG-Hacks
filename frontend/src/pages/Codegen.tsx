@@ -9,7 +9,7 @@ import { useState } from "react"
 import axios from 'axios'
 import { Spinner } from "@/components/Spinner";
 import ConversionTitleCards from "@/components/ConversionTitleCards";
-
+import { Link } from "react-router-dom";
 //@ts-ignore
 
 export default function Codegen() {
@@ -153,6 +153,17 @@ export default function Codegen() {
             <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`${dropInputs.fileName}.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
             Download
 </a>
+<div className="flex items-center justify-center mt-2">
+          <Link to="/ask">   
+            <button  className="rounded-md bg-blue-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
+             Ask 
+         </button>
+          </Link>
+
+          
+
+          </div>
+
 
           </div>
           

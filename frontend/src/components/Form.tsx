@@ -102,7 +102,7 @@ function LabelledInput({ label, placeholder, onChange, type }: LabelledInputType
     </div>
   );
 }
-
+//@ts-ignore
 function CheckIcon(props) {
   return (
     <svg

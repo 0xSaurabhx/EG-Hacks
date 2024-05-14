@@ -27,7 +27,7 @@ function Footer() {
 }
 
 export default Footer
-
+//@ts-ignore
 function FlagIcon(props) {
   return (
     <svg

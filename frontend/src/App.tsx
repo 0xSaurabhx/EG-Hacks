@@ -7,7 +7,9 @@ import LandingPage from "./pages/LandingPage";
 import Chatbot from "./pages/Chatbot";
 import Codegen from "./pages/Codegen";
 import ConversionHistory from "./pages/ConversionHistory";
-import Notification from "../src/pages/Notification"; // Import the Notification component
+import Notification from "../src/pages/Notification";
+import Ask from "./pages/Ask";
+
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/codegen" element={<Codegen />} />
           <Route path="/convert/:id" element={<ConversionHistory />} />
+          <Route path="/convert/:id" element={<ConversionHistory />} />
+          <Route path="/ask" element={<Ask/>} />
         </Routes>
       </BrowserRouter>
       <Notification /> {/* Render the Notification component */}

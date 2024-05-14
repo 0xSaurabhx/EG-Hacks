@@ -1,4 +1,3 @@
-import React from 'react';
 import './Chatbot.css';
 import gptLogo from "../assets/chatgpt.svg";
 import addBtn from '../assets/add-30.png';

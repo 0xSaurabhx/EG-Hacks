@@ -10,15 +10,13 @@ import { Spinner } from "@/components/Spinner";
 import ConversionTitleCards from "@/components/ConversionTitleCards";
 import { Link } from "react-router-dom";
 
-
 export default function Codegen() {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const userid = user?.id;
-  
+
   const [convertedCode, setConvertedCode] = useState<string>('');
   const [conId, setConId] = useState<string>('');
   const [conTitle, setConTitle] = useState<string>('');
- 
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const isAuthenticated = localStorage.getItem('user') !== null;
   const [dropInputs, setDropInputs] = useState<{
@@ -31,14 +29,12 @@ export default function Codegen() {
     from: "",
     to: "",
     file: null,
-    userid: userid, 
+    userid: userid,
   });
-  
+
   if (!isAuthenticated) {
     return <Navigate to="/signin" replace />;
   }
- 
- 
 
   const copyCode = async () => {
     try {
@@ -84,7 +80,7 @@ export default function Codegen() {
       formData.append('file', file);
       formData.append('from', from);
       formData.append('to', to);
-      formData.append('userid', userid); 
+      formData.append('userid', userid);
       console.log('FormData:', formData);
       try {
         console.log('Making API request...');
@@ -94,7 +90,7 @@ export default function Codegen() {
           },
         });
         console.log('Response:', response);
-        if (response.status === 200) { 
+        if (response.status === 200) {
           setIsConverting(false);
           setConvertedCode(response.data.code);
           setConId(response.data.id);
@@ -112,17 +108,19 @@ export default function Codegen() {
       setIsConverting(false);
     }
   };
-console.log('ConId:', conId);
+
+  console.log('ConId:', conId);
+
   return (
     <>
       <Header />
       <div className="flex min-h-screen w-full">
-        <div className="flex flex-col items-center gap-6 bg-gray-100 p-8 md:w-3/4 overflow-y-auto">
+        <div className="flex flex-col items-center gap-6 bg-gray-100 p-8 w-full md:w-3/4 overflow-y-auto">
           <h1 className="text-3xl font-bold tracking-tight mt-20 sm:text-4xl">Legacy to Modern Code Converter</h1>
-          <div className="flex w-full max-w-lg flex-col items-center justify-center gap-4">
+          <div className="flex w-full max-w-3xl flex-col items-center justify-center gap-4">
             <div className="grid w-full gap-2">
               <Label htmlFor="file-upload" className="w-full">Upload Legacy Code</Label>
-              <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" onChange={handleFileChange} className="w-full"/>
+              <Input accept=".pas,.dfm,.cob,.cbl,.vb,.vbs" id="file-upload" required type="file" onChange={handleFileChange} className="w-full" />
             </div>
             <div className="grid w-full gap-2">
               <label htmlFor="from-language" className="py-1 pr-2 text-sm font-semibold w-full">Legacy code</label>
@@ -153,43 +151,37 @@ console.log('ConId:', conId);
             <Button onClick={handleConvert} className="w-full">Convert</Button>
             {isConverting && <Spinner />}
             {convertedCode && (
-              <div className="rounded-md border border-gray-200 bg-white p-4 shadow-sm w-full">
-                <h3 className="text-lg font-semibold">Converted Code</h3>
-                <div className="bg-gray-900 rounded-md p-2">
+              <div className="rounded-md border border-gray-200 bg-white p-6 shadow-sm w-full max-w-3xl">
+                <h3 className="text-lg font-semibold mb-4">Converted Code</h3>
+                <div className="bg-gray-900 rounded-md p-4 mb-4">
                   <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-100">
                     {convertedCode}
                   </pre>
                 </div>
-                <div className="flex items-center justify-center mt-2">
-                  <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
+                  <button
+                    onClick={copyCode}
+                    className="rounded-md bg-blue-600 text-white px-4 py-2 hover:bg-blue-500 transition duration-300"
+                  >
                     Copy
                   </button>
-                  <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`${dropInputs.fileName}.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
+                  <a
+                    href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`}
+                    download={`${dropInputs.fileName}.${getFileExtension()}`}
+                    className="rounded-md bg-green-600 text-white px-4 py-2 hover:bg-green-500 transition duration-300"
+                  >
                     Download
                   </a>
-                  
-                           
-
+                  <Link to={`/docs/${conId}`} state={{ title: conTitle }} className="rounded-md bg-gray-600 text-white px-4 py-2 hover:bg-gray-500 transition duration-300">
+                    Docs
+                  </Link>
+                  <Link to="/debug" className="rounded-md bg-yellow-600 text-white px-4 py-2 hover:bg-yellow-500 transition duration-300">
+                    Debug
+                  </Link>
+                  <Link to="/optimize" className="rounded-md bg-purple-600 text-white px-4 py-2 hover:bg-purple-500 transition duration-300">
+                    Optimize
+                  </Link>
                 </div>
-                <div className="flex mt-5 justify-around">
-                <Link to={`/docs/${conId}`} state={{ title: conTitle }}>   
-            <button  className="rounded-md  text-white px-3 py-1 mr-2 bg-gray-700">
-             Docs
-         </button>
-          </Link>
-
-          <Link to="/debug">   
-            <button  className="rounded-md  text-white px-3 py-1 mr-2 bg-gray-700">
-             Debug
-         </button>
-          </Link>
-
-          <Link to="/optimize">   
-            <button  className="rounded-md  text-white px-6 py-1 mr-2 bg-gray-700 justify-around">
-             Optimize 
-         </button>
-          </Link>
-                  </div>
               </div>
             )}
           </div>

@@ -1,4 +1,4 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import { Back } from "@/components/Back";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,7 +8,7 @@ const ConversionHistory = () => {
     const location = useLocation();
     const { title } = location.state || { title: '' }; 
     const [data, setData] = useState('');
-
+    const docsUrl = id?.replace('-new', '') 
     const copyCode = async () => {
         try {
             await navigator.clipboard.writeText(data);
@@ -47,6 +47,11 @@ const ConversionHistory = () => {
                             <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
                                 Copy
                             </button>
+                            <Link to={`/docs/${docsUrl}`}>
+                                <button className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
+                                    Docs
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ export default function Codegen() {
   const [convertedCode, setConvertedCode] = useState<string>('');
   const [conId, setConId] = useState<string>('');
   const [conTitle, setConTitle] = useState<string>('');
-
+ 
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const isAuthenticated = localStorage.getItem('user') !== null;
   const [dropInputs, setDropInputs] = useState<{
@@ -112,7 +112,7 @@ export default function Codegen() {
       setIsConverting(false);
     }
   };
-
+console.log('ConId:', conId);
   return (
     <>
       <Header />

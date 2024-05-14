@@ -146,7 +146,7 @@ def convert():
                     """,
                 }
             ],
-            model="mixtral-8x7b-32768",
+            model="llama3-70b-8192",
         )
 
         con_id = str(uuid.uuid4())

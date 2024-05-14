@@ -10,7 +10,7 @@ import axios from 'axios'
 import { Spinner } from "@/components/Spinner";
 import ConversionTitleCards from "@/components/ConversionTitleCards";
 
-// @ts-ignore
+//@ts-ignore
 
 export default function Codegen() {
 
@@ -53,11 +53,15 @@ export default function Codegen() {
   }
 
   const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const fileNameWithoutExtension = file.name.split('.').slice(0, -1).join('.');
     setDropInputs(prevState => ({
       ...prevState,
-      file: event.target.files[0],
+      file: file,
+      fileName: fileNameWithoutExtension,
     }));
-  };
+};
+
 
   const handleConvert = async () => {
     setIsConverting(true);
@@ -146,9 +150,10 @@ export default function Codegen() {
             <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
               Copy
             </button>
-            <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`converted_code.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
-              Download
-            </a>
+            <a href={`data:text/plain;charset=utf-8,${encodeURIComponent(convertedCode)}`} download={`${dropInputs.fileName}.${getFileExtension()}`} className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
+            Download
+</a>
+
           </div>
         </div>
       )}

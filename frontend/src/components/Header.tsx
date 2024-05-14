@@ -21,7 +21,10 @@ export const Header = () => {
     return <div className="border-b flex justify-between px-10 py-4">
                 <div  className="flex items-center gap-2">
                 <FlagIcon className="h-6 w-6 mr-2" />
-        <span className="text-lg font-bold">Codegram</span>
+                <Link to={'/codegen'}>
+                <span className="text-lg font-bold cursor-pointer">Codegram</span>
+                </Link>
+        
         </div>
         <div className="flex items-center">
         <div className="flex justify-center items-center gap-4 sm:gap-6">

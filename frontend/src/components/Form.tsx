@@ -5,6 +5,13 @@ import { FaEye as Eye, FaEyeSlash as EyeSlash } from 'react-icons/fa';
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  InputOTP,
+  InputOTPGroup,
+
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+import { Label } from "@/components/ui/label"
 
 const Form = ({ type }: { type: "signup" | "signin" }) => {
   const navigate = useNavigate();
@@ -40,6 +47,21 @@ const Form = ({ type }: { type: "signup" | "signin" }) => {
       <div className="p-6 space-y-4">
         <div className="space-y-2 mb-5">
           <LabelledInput label="Email" placeholder="Enter your email" onChange={(e) => setPostInputs({ ...postInputs, email: e.target.value })} />
+          <CheckIcon className="hidden h-4 w-4 cursor-pointer" />
+                <span className="sr-only">Verify</span>
+                <div className="hidden space-y-2">
+              <Label htmlFor="otp">OTP</Label>
+              <InputOTP maxLength={6}>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+            </div>
         </div>
         <div className="space-y-2">
           <LabelledInput label="Password" placeholder={type === "signup" ? "Create a password" : "Enter your password"} onChange={(e) => setPostInputs({ ...postInputs, password: e.target.value })} type="password" />
@@ -79,6 +101,25 @@ function LabelledInput({ label, placeholder, onChange, type }: LabelledInputType
       )}
     </div>
   );
+}
+
+function CheckIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  )
 }
 
 export default Form;

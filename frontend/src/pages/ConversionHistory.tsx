@@ -47,7 +47,7 @@ const ConversionHistory = () => {
                             <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
                                 Copy
                             </button>
-                            <Link to={`/docs/${docsUrl}`}>
+                            <Link to={`/docs/${docsUrl}`} state={{ title: title }}>
                                 <button className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
                                     Docs
                                 </button>

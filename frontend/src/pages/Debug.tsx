@@ -9,13 +9,17 @@ import axios from 'axios';
 const Debug = () => {
   const { id } = useParams();
   const location = useLocation();
+  
 
   const { title } = location.state || { title: '' }; 
   const [code, setCode] = useState('');
+  const titleRegex = /from (\w+) to (\w+) -/;
+  const match = title.match(titleRegex);
+  const targetLang = match ? match[2] : '';
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`${API_URL}/debug/get?chatid=${id}-new&title=${title}`);
+      const response = await axios.get(`${API_URL}/debug/get?chatid=${id}&title=${title}`);
       const data = await response.data;
       setCode(data);
     };
@@ -34,7 +38,7 @@ const Debug = () => {
               Debug
             </div>
             <div className="pt-5 mt-5 p-10  text-white">
-            <SyntaxHighlighter language="java" style={docco}>
+            <SyntaxHighlighter language={targetLang} style={docco}>
                 {code}
                 </SyntaxHighlighter>
             </div>

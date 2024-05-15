@@ -2,6 +2,8 @@ import { useParams, useLocation, Link } from "react-router-dom";
 import { Back } from "@/components/Back";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const ConversionHistory = () => {
     const { id } = useParams();
@@ -38,13 +40,13 @@ const ConversionHistory = () => {
                         </div>
                         <div className="pt-4">
                             <div className="bg-gray-900 rounded-md p-2">
-                                <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-100">
-                                    {data}
-                                </pre>
+                            <SyntaxHighlighter language="java" style={docco}>
+                {data}
+                </SyntaxHighlighter>
                             </div>
                         </div>
                         <div className="flex items-center justify-center mt-2">
-                            <button onClick={copyCode} className="rounded-md bg-gray-800 text-white px-3 py-1 mr-2 hover:bg-gray-700">
+                            <button onClick={copyCode} className="rounded-md bg-blue-600 text-white px-3 py-1 mr-2 hover:bg-gray-700">
                                 Copy
                             </button>
                             <Link to={`/docs/${docsUrl}`} state={{ title: title }}>
@@ -53,7 +55,7 @@ const ConversionHistory = () => {
                                 </button>
                             </Link>
                             <Link to={`/debug/${id}`} state={{ title: title }}>
-                                <button className="ml-5 rounded-md bg-yellow-600 text-white px-3 py-1 ">
+                                <button className="ml-3 rounded-md bg-yellow-600 text-white px-3 py-1 ">
                                     Debug
                                 </button>
                             </Link>

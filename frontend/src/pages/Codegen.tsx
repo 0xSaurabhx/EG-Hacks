@@ -9,6 +9,8 @@ import axios from 'axios';
 import { Spinner } from "@/components/Spinner";
 import ConversionTitleCards from "@/components/ConversionTitleCards";
 import { Link } from "react-router-dom";
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 export default function Codegen() {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -156,7 +158,10 @@ export default function Codegen() {
                 <h3 className="text-lg font-semibold mb-4">Converted Code</h3>
                 <div className=" rounded-md p-4 mb-4">
                   <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900">
-                    {convertedCode}
+                  <SyntaxHighlighter language={dropInputs.to} style={docco}>
+                  {convertedCode}
+                </SyntaxHighlighter>
+                    
                   </pre>
                 </div>
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
@@ -176,12 +181,10 @@ export default function Codegen() {
                   <Link to={`/docs/${conId}`} state={{ title: conTitle }} className="rounded-md bg-gray-600 text-white px-4 py-2 hover:bg-gray-500 transition duration-300">
                     Docs
                   </Link>
-                  <Link to={`/debug/${conId}`} state={{ title: conTitle }}  className="rounded-md bg-yellow-600 text-white px-4 py-2 hover:bg-yellow-500 transition duration-300">
+                  <Link to={`/debug/${conId}-new`} state={{ title: conTitle }}  className="rounded-md bg-yellow-600 text-white px-4 py-2 hover:bg-yellow-500 transition duration-300">
                     Debug
                   </Link>
-                  <Link to="/optimize" className="rounded-md bg-purple-600 text-white px-4 py-2 hover:bg-purple-500 transition duration-300">
-                    Optimize
-                  </Link>
+                 
                 </div>
               </div>
             )}

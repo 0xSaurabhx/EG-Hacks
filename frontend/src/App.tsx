@@ -10,7 +10,7 @@ import ConversionHistory from "./pages/ConversionHistory";
 import Notification from "./pages/Notification";
 
 import Debug from "./pages/Debug";
-import Optimize from "./pages/Optimizee";
+
 import Docs from "./pages/Docs";
 export default function App() {
   return (
@@ -25,7 +25,7 @@ export default function App() {
         <Route path="/convert/:id" element={<ConversionHistory />} />
 
         <Route path="/debug/:id" element={<Debug />} />
-        <Route path="/optimize" element={<Optimize />} />
+      
         <Route path="/docs/:id" element={<Docs />} />
       </Routes>
       <Notification />

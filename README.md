@@ -9,9 +9,7 @@ Codegram is an advanced legacy code converter designed to transform VB, Delphi, 
 - **Lightning-fast Conversion**: Converts large legacy code files to modern languages within milliseconds using advanced algorithms.
 - **Efficiency without Sacrifice**: Ensures converted code is efficient, readable, and adheres to modern coding standards.
 - **Integrated Debugging Tools**: Seamless error identification and correction in converted code.
-- **Code Optimization**: Analyzes and improves converted code for enhanced performance and efficiency.
 - **Documentation Generator**: Generates structured documentation templates to enhance code comprehension.
-- **Code Explainer**: Transforms complex code into easy-to-understand explanations.
 - **Code Debugger**: Efficiently identifies and resolves code issues.
 - **Email Verification**: Ensures user data security by authenticating email addresses.
 - **Conversion History**: Stores conversion input data for future reference.
@@ -32,3 +30,65 @@ Codegram is an advanced legacy code converter designed to transform VB, Delphi, 
 
 ### Storage
 - **Cloudflare R2**: Used for storing converted code and file conversion history.
+
+
+## AI Innovation Challenge: What We Built
+
+### Overview
+In the AI Innovation Challenge, we developed a suite of tools aimed at enhancing the coding and software development process. These tools leverage advanced AI techniques to assist developers in various aspects of their work, from understanding and debugging code to generating comprehensive documentation.
+
+### Tools Developed
+
+1. **Conversion History**
+   - **Description**: This tool keeps a log of all conversion input data, allowing developers to track and review their conversion activities.
+   - **Features**:
+     - Stores conversion input data with timestamps.
+     - Provides an easy-to-navigate history of past conversions.
+     - Facilitates tracking and auditing of data transformations.
+
+2. **Documentation Generator**
+   - **Description**: Automatically generates structured documentation templates for code, improving comprehension and maintainability.
+   - **Features**:
+     - Extracts key information from code comments and structure.
+     - Creates clear and concise documentation templates.
+     - Supports various documentation standards and formats (e.g., Javadoc, Doxygen).
+
+
+
+3. **Code Debugger**
+   - **Description**: An intelligent tool that identifies and helps resolve issues in code efficiently.
+   - **Features**:
+     - Detects syntax and logical errors in code.
+     - Provides detailed error descriptions and potential fixes.
+     - Integrates with popular development environments.
+
+### Getting Started
+
+#### Prerequisites
+- Ensure you have the following software installed:
+  - Python 3.x
+  - Required libraries: `numpy`, `pandas`, `scikit-learn`, `nltk` (for natural language processing tasks)
+
+
+
+
+### Team Members
+
+- **Vignesh Prabhu**
+  - Institution: Shri Madhwa Vadiraja Institute of Technology & Management
+  - Year: 3rd Year
+
+- **Royal Salins**
+  - Institution: Shri Madhwa Vadiraja Institute of Technology & Management
+  - Year: 3rd Year
+
+- **Saurabh**
+  - Institution: Shri Madhwa Vadiraja Institute of Technology & Management
+  - Year: 3rd Year
+
+- **Prathviraj Holla**
+  - Institution: Shri Madhwa Vadiraja Institute of Technology & Management
+  - Year: 3rd Year
+
+
+

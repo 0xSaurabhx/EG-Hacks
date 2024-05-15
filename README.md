@@ -32,3 +32,66 @@ Codegram is an advanced legacy code converter designed to transform VB, Delphi, 
 
 ### Storage
 - **Cloudflare R2**: Used for storing converted code and file conversion history.
+
+  # README
+
+## AI Innovation Challenge: What We Built
+
+### Overview
+In the AI Innovation Challenge, we developed a suite of tools aimed at enhancing the coding and software development process. These tools leverage advanced AI techniques to assist developers in various aspects of their work, from understanding and debugging code to generating comprehensive documentation.
+
+### Tools Developed
+
+1. **Conversion History**
+   - **Description**: This tool keeps a log of all conversion input data, allowing developers to track and review their conversion activities.
+   - **Features**:
+     - Stores conversion input data with timestamps.
+     - Provides an easy-to-navigate history of past conversions.
+     - Facilitates tracking and auditing of data transformations.
+
+2. **Documentation Generator**
+   - **Description**: Automatically generates structured documentation templates for code, improving comprehension and maintainability.
+   - **Features**:
+     - Extracts key information from code comments and structure.
+     - Creates clear and concise documentation templates.
+     - Supports various documentation standards and formats (e.g., Javadoc, Doxygen).
+
+
+
+3. **Code Debugger**
+   - **Description**: An intelligent tool that identifies and helps resolve issues in code efficiently.
+   - **Features**:
+     - Detects syntax and logical errors in code.
+     - Provides detailed error descriptions and potential fixes.
+     - Integrates with popular development environments.
+
+### Getting Started
+
+#### Prerequisites
+- Ensure you have the following software installed:
+  - Python 3.x
+  - Required libraries: `numpy`, `pandas`, `scikit-learn`, `nltk` (for natural language processing tasks)
+
+
+
+#### Usage
+
+1. **Conversion History**:
+   - To start tracking conversion history, run the `conversion_history.py` script.
+   ```sh
+   python conversion_history.py
+   ```
+
+2. **Documentation Generator**:
+   - Generate documentation by running the `doc_generator.py` script and specifying the source code directory.
+   ```sh
+   python doc_generator.py -s /path/to/source/code
+   ```
+
+
+3. **Code Debugger**:
+   - Run the `code_debugger.py` script to identify and resolve issues in your code.
+   ```sh
+   python code_debugger.py -f /path/to/code/file
+   ```
+

@@ -245,7 +245,7 @@ def debug_code():
                     "content": prompt,
                 }
             ],
-            model="mixtral-8x7b-32768",
+            model="llama3-8b-8192",
         )
     content = chat_completion.choices[0].message.content
     return content

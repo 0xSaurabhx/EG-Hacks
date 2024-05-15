@@ -31,7 +31,6 @@ Codegram is an advanced legacy code converter designed to transform VB, Delphi, 
 ### Storage
 - **Cloudflare R2**: Used for storing converted code and file conversion history.
 
-  # README
 
 ## AI Innovation Challenge: What We Built
 

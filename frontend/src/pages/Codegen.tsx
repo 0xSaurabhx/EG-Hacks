@@ -151,10 +151,11 @@ export default function Codegen() {
             <Button onClick={handleConvert} className="w-full">Convert</Button>
             {isConverting && <Spinner />}
             {convertedCode && (
+             
               <div className="rounded-md border border-gray-200 bg-white p-6 shadow-sm w-full max-w-3xl">
                 <h3 className="text-lg font-semibold mb-4">Converted Code</h3>
-                <div className="bg-gray-900 rounded-md p-4 mb-4">
-                  <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-100">
+                <div className=" rounded-md p-4 mb-4">
+                  <pre className="whitespace-pre-wrap break-words font-mono text-sm text-gray-900">
                     {convertedCode}
                   </pre>
                 </div>

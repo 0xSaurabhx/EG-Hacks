@@ -2,6 +2,7 @@ import { Back } from "@/components/Back";
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from "react-router-dom";
 import { BlogSkeleton } from "@/components/BodySkeleton";
+import { API_URL } from "@/lib/utils";
 
 //@ts-ignore
 const sanitizeHTML = (htmlString) => {
@@ -29,8 +30,8 @@ const Docs = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const Nresponse = await fetch(`https://eg-hacks-api.vercel.app/docs/get?chatid=${id}-new&title=${targetLang}`);
-                const Oresponse = await fetch(`https://eg-hacks-api.vercel.app/docs/get?chatid=${id}-old&title=${sourceLang}`);
+                const Nresponse = await fetch(`${API_URL}/docs/get?chatid=${id}-new&title=${targetLang}`);
+                const Oresponse = await fetch(`${API_URL}/docs/get?chatid=${id}-old&title=${sourceLang}`);
 
                 if (!Oresponse.ok && !Nresponse.ok) {
                     throw new Error('Failed to fetch HTML content');

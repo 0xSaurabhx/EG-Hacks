@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-
+import { API_URL } from '@/lib/utils';
 import { useParams, useLocation } from "react-router-dom";
 import { Back } from '@/components/Back';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
 import axios from 'axios';
 const Debug = () => {
   const { id } = useParams();
@@ -15,7 +15,7 @@ const Debug = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(`https://eg-hacks-api.vercel.app/debug/get?chatid=${id}-new&title=${title}`);
+      const response = await axios.get(`${API_URL}/debug/get?chatid=${id}-new&title=${title}`);
       const data = await response.data;
       setCode(data);
     };

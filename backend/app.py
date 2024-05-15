@@ -238,15 +238,18 @@ def debug_code():
     above code is coverted {title}, debug the code if neccessary and add comments regarding the changes you made. Also add propper heading and subheading
     """
 
-    chat_completion = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt,
-                }
-            ],
-            model="llama3-8b-8192",
-        )
+    try:
+        chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="llama3-8b-8192",
+    )
+    except Exception as e:
+        return f"An error occurred: {e} --- {prompt}"
     content = chat_completion.choices[0].message.content
     return content
 

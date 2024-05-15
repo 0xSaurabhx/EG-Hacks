@@ -225,5 +225,30 @@ Make sure the html file is well-structured and easy to follow, using appropriate
     content = chat_completion.choices[0].message.content
     return content
 
+
+
+@app.route("/debug/get", methods=["GET"])
+def get_docs():
+    chatid = request.args.get('chatid')
+    title = request.args.get('title')
+    chat_url = f"https://pub-ed6294b09052471093b13f036a7fe802.r2.dev/{chatid}.json"
+    response = requests.get(chat_url)
+    code = response.text
+    prompt = prompt = f"""{code}
+    above code is coverted {title}, debug the code if neccessary and add comments regarding the changes you made.
+    """
+
+    chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="mixtral-8x7b-32768",
+        )
+    content = chat_completion.choices[0].message.content
+    return content
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

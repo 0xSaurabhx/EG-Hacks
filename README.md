@@ -9,9 +9,7 @@ Codegram is an advanced legacy code converter designed to transform VB, Delphi, 
 - **Lightning-fast Conversion**: Converts large legacy code files to modern languages within milliseconds using advanced algorithms.
 - **Efficiency without Sacrifice**: Ensures converted code is efficient, readable, and adheres to modern coding standards.
 - **Integrated Debugging Tools**: Seamless error identification and correction in converted code.
-- **Code Optimization**: Analyzes and improves converted code for enhanced performance and efficiency.
 - **Documentation Generator**: Generates structured documentation templates to enhance code comprehension.
-- **Code Explainer**: Transforms complex code into easy-to-understand explanations.
 - **Code Debugger**: Efficiently identifies and resolves code issues.
 - **Email Verification**: Ensures user data security by authenticating email addresses.
 - **Conversion History**: Stores conversion input data for future reference.

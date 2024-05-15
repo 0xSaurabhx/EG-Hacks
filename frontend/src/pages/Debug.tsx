@@ -4,6 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { Back } from '@/components/Back';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import axios from 'axios';
 const Debug = () => {
   const { id } = useParams();
@@ -23,14 +24,16 @@ const Debug = () => {
   }, []);
 
   return (
-    <div>
+    <>
+    <Back />
+     <div>
       <div className="flex justify-center">
         <div className="px-10 w-full pt-200 max-w-screen-xl pt-12">
           <div >
             <div className="text-5xl   font-extrabold">
               Debug
             </div>
-            <div className="pt-5 mt-5 p-10 bg-gray-900 text-white">
+            <div className="pt-5 mt-5 p-10  text-white">
             <SyntaxHighlighter language="java" style={docco}>
                 {code}
                 </SyntaxHighlighter>
@@ -39,6 +42,8 @@ const Debug = () => {
         </div>
       </div>
     </div>
+    </>
+   
   );
 };
 

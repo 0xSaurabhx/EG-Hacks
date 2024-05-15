@@ -228,7 +228,7 @@ Make sure the html file is well-structured and easy to follow, using appropriate
 
 
 @app.route("/debug/get", methods=["GET"])
-def get_docs():
+def debug_code():
     chatid = request.args.get('chatid')
     title = request.args.get('title')
     chat_url = f"https://pub-ed6294b09052471093b13f036a7fe802.r2.dev/{chatid}.json"

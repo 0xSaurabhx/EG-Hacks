@@ -24,7 +24,7 @@ export default function App() {
         <Route path="/codegen" element={<Codegen />} />
         <Route path="/convert/:id" element={<ConversionHistory />} />
 
-        <Route path="/debug" element={<Debug />} />
+        <Route path="/debug/:id" element={<Debug />} />
         <Route path="/optimize" element={<Optimize />} />
         <Route path="/docs/:id" element={<Docs />} />
       </Routes>

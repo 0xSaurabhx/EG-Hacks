@@ -175,7 +175,7 @@ export default function Codegen() {
                   <Link to={`/docs/${conId}`} state={{ title: conTitle }} className="rounded-md bg-gray-600 text-white px-4 py-2 hover:bg-gray-500 transition duration-300">
                     Docs
                   </Link>
-                  <Link to="/debug" className="rounded-md bg-yellow-600 text-white px-4 py-2 hover:bg-yellow-500 transition duration-300">
+                  <Link to={`/debug/${conId}`} state={{ title: conTitle }}  className="rounded-md bg-yellow-600 text-white px-4 py-2 hover:bg-yellow-500 transition duration-300">
                     Debug
                   </Link>
                   <Link to="/optimize" className="rounded-md bg-purple-600 text-white px-4 py-2 hover:bg-purple-500 transition duration-300">

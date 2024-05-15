@@ -235,7 +235,7 @@ def debug_code():
     response = requests.get(chat_url)
     code = response.text
     prompt = prompt = f"""{code}
-    above code is coverted {title}, debug the code if neccessary and add comments regarding the changes you made.
+    above code is coverted {title}, debug the code if neccessary and add comments regarding the changes you made. Also add propper heading and subheading
     """
 
     chat_completion = client.chat.completions.create(

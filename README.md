@@ -73,3 +73,23 @@ In the AI Innovation Challenge, we developed a suite of tools aimed at enhancing
 
 
 
+### Team Members
+
+- **Vignesh Prabhu**
+  - Institution: Shri Madhwa Vadiraja Institute of Technology & Management
+  - Year: 3rd Year
+
+- **Royal Salins**
+  - Institution: Shri Madhwa Vadiraja Institute of Technology & Management
+  - Year: 3rd Year
+
+- **Saurabh**
+  - Institution: Shri Madhwa Vadiraja Institute of Technology & Management
+  - Year: 3rd Year
+
+- **Prathviraj Holla**
+  - Institution: Shri Madhwa Vadiraja Institute of Technology & Management
+  - Year: 3rd Year
+
+
+

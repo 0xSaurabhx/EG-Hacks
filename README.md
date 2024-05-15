@@ -74,24 +74,4 @@ In the AI Innovation Challenge, we developed a suite of tools aimed at enhancing
 
 
 
-#### Usage
-
-1. **Conversion History**:
-   - To start tracking conversion history, run the `conversion_history.py` script.
-   ```sh
-   python conversion_history.py
-   ```
-
-2. **Documentation Generator**:
-   - Generate documentation by running the `doc_generator.py` script and specifying the source code directory.
-   ```sh
-   python doc_generator.py -s /path/to/source/code
-   ```
-
-
-3. **Code Debugger**:
-   - Run the `code_debugger.py` script to identify and resolve issues in your code.
-   ```sh
-   python code_debugger.py -f /path/to/code/file
-   ```
 

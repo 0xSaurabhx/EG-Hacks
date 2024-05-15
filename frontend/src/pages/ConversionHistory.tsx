@@ -53,8 +53,8 @@ const ConversionHistory = () => {
                                 </button>
                             </Link>
                             <Link to={`/debug/${id}`} state={{ title: title }}>
-                                <button className="rounded-md bg-gray-800 text-white px-3 py-1 hover:bg-gray-700">
-                                    Docs
+                                <button className="ml-5 rounded-md bg-yellow-600 text-white px-3 py-1 ">
+                                    Debug
                                 </button>
                             </Link>
                         </div>

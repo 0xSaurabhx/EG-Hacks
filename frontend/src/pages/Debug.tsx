@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import Markdown from 'react-markdown';
+
 import { useParams, useLocation } from "react-router-dom";
 import { Back } from '@/components/Back';
-// import SyntaxHighlighter from 'react-syntax-highlighter';
-// import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import axios from 'axios';
 const Debug = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -13,8 +14,8 @@ const Debug = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`https://eg-hacks-api.vercel.app/debug/get?chatid=${id}-new&title=${title}`);
-      const data = await response.text();
+      const response = await axios.get(`https://eg-hacks-api.vercel.app/debug/get?chatid=${id}-new&title=${title}`);
+      const data = await response.data;
       setCode(data);
     };
 
@@ -30,9 +31,9 @@ const Debug = () => {
               Debug
             </div>
             <div className="pt-5 mt-5 p-10 bg-gray-900 text-white">
-            {/* <SyntaxHighlighter language="javascript" style={docco}>
+            <SyntaxHighlighter language="java" style={docco}>
                 {code}
-                </SyntaxHighlighter> */}
+                </SyntaxHighlighter>
             </div>
           </div>
         </div>
